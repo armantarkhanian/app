@@ -1,8 +1,8 @@
 {
     "sessions": {
         "name": "session",
-        "authenticationKey": "<authenticationKey>",
-        "encryptionKey": "<encryptionKey>",
+        "authenticationKey": "",
+        "encryptionKey": "",
         "domain": "localhost",
 	    "maxAge": 7776000,
 	    "secure": false
