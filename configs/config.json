@@ -1,1 +1,21 @@
-{}
+{
+    "sessions": {
+        "name": "session",
+        "authenticationKey": "<authenticationKey>",
+        "encryptionKey": "<encryptionKey>",
+        "domain": "localhost",
+	    "maxAge": 7776000,
+	    "secure": false
+    },
+
+    "gin": {
+        "addr": ":8080",
+        "mode": "debug",
+        "timeouts": {
+            "read": "15s",
+            "write": "15s",
+            "idle": "15s",
+            "shutdown": "15s"
+        }
+    }
+}
