@@ -2,25 +2,38 @@
 package configs
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"log"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/go-playground/validator/v10"
+	"github.com/spf13/viper"
 )
 
 var Store *Configs
 
 func Init() {
-	bytes, err := ioutil.ReadFile("./configs/config.json")
+	Store = &Configs{}
+	v := viper.New()
+	v.SetConfigFile("./configs/config.json")
+	v.SetConfigType("json")
+
+	err := v.ReadInConfig()
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	err = json.Unmarshal(bytes, &Store)
+	err = v.Unmarshal(Store)
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	v.WatchConfig()
+	v.OnConfigChange(func(e fsnotify.Event) {
+		err = v.Unmarshal(Store)
+		if err != nil {
+			log.Fatalln(err)
+		}
+	})
 
 	validate := validator.New()
 

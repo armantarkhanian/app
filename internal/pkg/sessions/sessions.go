@@ -12,8 +12,6 @@ import (
 
 var store cookie.Store
 
-var sessionName string
-
 func Init() {
 	gob.Register(Session{})
 
@@ -29,26 +27,25 @@ func Init() {
 		Secure:   configs.Store.Sessions.Secure,
 		HttpOnly: true,
 	})
-	sessionName = configs.Store.Sessions.Name
 }
 
 func Middleware() gin.HandlerFunc {
-	return sessions.Sessions(sessionName, store)
+	return sessions.Sessions(configs.Store.Sessions.Name, store)
 }
 
 func (sessionStruct *Session) Save(c *gin.Context) error {
 	session := sessions.Default(c)
-	session.Set(sessionName, sessionStruct)
+	session.Set(configs.Store.Sessions.Name, sessionStruct)
 	return session.Save()
 }
 
 func Get(c *gin.Context) *Session {
-	sessionStruct, _ := sessions.Default(c).Get(sessionName).(Session)
+	sessionStruct, _ := sessions.Default(c).Get(configs.Store.Sessions.Name).(Session)
 	return &sessionStruct
 }
 
 func DeleteCookie(c *gin.Context) {
-	c.SetCookie(sessionName,
+	c.SetCookie(configs.Store.Sessions.Name,
 		"",
 		-1,
 		"/",

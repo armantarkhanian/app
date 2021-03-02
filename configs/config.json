@@ -1,8 +1,12 @@
 {
+    "telegramNotify": {
+        "botToken": "$&)**$*!!%:zzr&VEf&tIAimzkFnQ!wt&siDb*eT-CVC-r",
+        "chatID": "-$%%$#(#!*!)$@"
+    },
     "sessions": {
         "name": "session",
-        "authenticationKey": "",
-        "encryptionKey": "",
+        "authenticationKey": "4aceccc4ae3d43e28e7788c6165105e0",
+        "encryptionKey": "b9de910cded0409fb20655a7ccdc2b96",
         "domain": "localhost",
 	    "maxAge": 7776000,
 	    "secure": false
@@ -16,6 +20,13 @@
             "write": "15s",
             "idle": "15s",
             "shutdown": "15s"
+        },
+        
+        "log": {
+            "accessLogFile": "./assets/log/access.log",
+            "errorLogFile": "./assets/log/error.log",
+            "useStdOut": true,
+            "useStdErr": true
         }
     }
 }

@@ -2,8 +2,14 @@
 package configs
 
 type Configs struct {
-	Sessions sessionsConfig `json:"sessions"`
-	Gin      ginConfig      `json:"gin"`
+	TelegramNotify telegramNotify `json:"telegramNotify"`
+	Sessions       sessionsConfig `json:"sessions"`
+	Gin            ginConfig      `json:"gin"`
+}
+
+type telegramNotify struct {
+	BotToken string `json:"botToken"`
+	ChatID   string `json:"chatID"`
 }
 
 type sessionsConfig struct {
@@ -16,12 +22,20 @@ type sessionsConfig struct {
 }
 
 type ginConfig struct {
-	Addr     string   `json:"addr" validate:"required"`
-	Timeouts Timeouts `json:"timeouts" validate:"required"`
-	Mode     string   `json:"mode" validate:"required,oneof=test debug release"`
+	Addr     string    `json:"addr" validate:"required"`
+	Timeouts timeouts  `json:"timeouts" validate:"required"`
+	Mode     string    `json:"mode" validate:"required,oneof=test debug release"`
+	Log      logConfig `json:"log"`
 }
 
-type Timeouts struct {
+type logConfig struct {
+	AccessLogFile string `json:"accessLogFile"`
+	ErrorLogFile  string `json:"errorLogFile"`
+	UseStdOut     bool   `json:"useStdOut"`
+	UseStdErr     bool   `json:"userStdErr"`
+}
+
+type timeouts struct {
 	Read     string `json:"read" validate:"required"`
 	Write    string `json:"write" validate:"required"`
 	Idle     string `json:"idle" validate:"required"`

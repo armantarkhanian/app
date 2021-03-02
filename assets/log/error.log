@@ -1,0 +1,860 @@
+
+
+[31m2021/03/01 21:17:46 [Recovery] 2021/03/01 - 21:17:46 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:25: function "handler" not defined
+/usr/local/go/src/html/template/template.go:372 (0x9eb0b5)
+	Must: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:74 (0x9eac3c)
+	HTMLDebug.loadTemplate: return template.Must(template.New("").Delims(r.Delims.Left, r.Delims.Right).Funcs(r.FuncMap).ParseGlob(r.Glob))
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:61 (0x9edbf7)
+	HTMLDebug.Instance: Template: r.loadTemplate(),
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:850 (0x9f476c)
+	(*Context).HTML: instance := c.engine.HTMLRender.Instance(name, obj)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:31 (0xa09a27)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa11aa5)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa044a4)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa035a4)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa7f9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9eec)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74eb22)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a22c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 21:17:48 [Recovery] 2021/03/01 - 21:17:48 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:25: function "handler" not defined
+/usr/local/go/src/html/template/template.go:372 (0x9eb0b5)
+	Must: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:74 (0x9eac3c)
+	HTMLDebug.loadTemplate: return template.Must(template.New("").Delims(r.Delims.Left, r.Delims.Right).Funcs(r.FuncMap).ParseGlob(r.Glob))
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:61 (0x9edbf7)
+	HTMLDebug.Instance: Template: r.loadTemplate(),
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:850 (0x9f476c)
+	(*Context).HTML: instance := c.engine.HTMLRender.Instance(name, obj)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:31 (0xa09a27)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa11aa5)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa044a4)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa035a4)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa7f9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9eec)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74eb22)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a22c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 21:18:49 [Recovery] 2021/03/01 - 21:18:49 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:27: too many declarations in command
+/usr/local/go/src/html/template/template.go:372 (0x9eb0b5)
+	Must: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:74 (0x9eac3c)
+	HTMLDebug.loadTemplate: return template.Must(template.New("").Delims(r.Delims.Left, r.Delims.Right).Funcs(r.FuncMap).ParseGlob(r.Glob))
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:61 (0x9edbf7)
+	HTMLDebug.Instance: Template: r.loadTemplate(),
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:850 (0x9f476c)
+	(*Context).HTML: instance := c.engine.HTMLRender.Instance(name, obj)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:31 (0xa09a27)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa11aa5)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa044a4)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa035a4)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa7f9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9eec)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74eb22)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a22c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 21:18:49 [Recovery] 2021/03/01 - 21:18:49 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:27: too many declarations in command
+/usr/local/go/src/html/template/template.go:372 (0x9eb0b5)
+	Must: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:74 (0x9eac3c)
+	HTMLDebug.loadTemplate: return template.Must(template.New("").Delims(r.Delims.Left, r.Delims.Right).Funcs(r.FuncMap).ParseGlob(r.Glob))
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:61 (0x9edbf7)
+	HTMLDebug.Instance: Template: r.loadTemplate(),
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:850 (0x9f476c)
+	(*Context).HTML: instance := c.engine.HTMLRender.Instance(name, obj)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:31 (0xa09a27)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa11aa5)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa044a4)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa035a4)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa7f9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9eec)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74eb22)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a22c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 21:47:25 [Recovery] 2021/03/01 - 21:47:25 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+open web/template/.#metrics.html: no such file or directory
+/usr/local/go/src/html/template/template.go:372 (0x9eb0b5)
+	Must: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:74 (0x9eac3c)
+	HTMLDebug.loadTemplate: return template.Must(template.New("").Delims(r.Delims.Left, r.Delims.Right).Funcs(r.FuncMap).ParseGlob(r.Glob))
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:61 (0x9edbf7)
+	HTMLDebug.Instance: Template: r.loadTemplate(),
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:850 (0x9f476c)
+	(*Context).HTML: instance := c.engine.HTMLRender.Instance(name, obj)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:31 (0xa09c75)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa11d05)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa044a4)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa035a4)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa7f9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9eec)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74eb22)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a22c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 21:47:26 [Recovery] 2021/03/01 - 21:47:26 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+open web/template/.#metrics.html: no such file or directory
+/usr/local/go/src/html/template/template.go:372 (0x9eb0b5)
+	Must: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:74 (0x9eac3c)
+	HTMLDebug.loadTemplate: return template.Must(template.New("").Delims(r.Delims.Left, r.Delims.Right).Funcs(r.FuncMap).ParseGlob(r.Glob))
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/render/html.go:61 (0x9edbf7)
+	HTMLDebug.Instance: Template: r.loadTemplate(),
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:850 (0x9f476c)
+	(*Context).HTML: instance := c.engine.HTMLRender.Instance(name, obj)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:31 (0xa09c75)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa11d05)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa044a4)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa035a4)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa7f9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9eec)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74eb22)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a22c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 22:42:25 [Recovery] 2021/03/01 - 22:42:25 panic recovered:
+GET / HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+assignment to entry in nil map
+/usr/local/go/src/runtime/map_faststr.go:204 (0x415ecc)
+	mapassign_faststr: panic(plainError("assignment to entry in nil map"))
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:113 (0xa0abf6)
+	SetLatencyValue: latencyMetrics[time.Now().Hour()][key] = duration
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:40 (0xa0afe4)
+	GinMiddleware.func1: SetLatencyValue("max", latency)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa138c5)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa044a4)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa035a4)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f07da)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa7f9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9eec)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74eb22)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a22c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 23:24:12 [Recovery] 2021/03/01 - 23:24:12 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:44:37: executing "metrics.html" at <.TotalViews>: can't evaluate field TotalViews in type int
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:842 (0x9f4795)
+	(*Context).Render: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:851 (0x9f4858)
+	(*Context).HTML: c.Render(code, instance)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:42 (0xa0a1d8)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:21 (0xa0990d)
+	GinMiddleware.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa12225)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa04564)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa03664)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa8b9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9fac)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74ebe2)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a2ec)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 23:24:12 [Recovery] 2021/03/01 - 23:24:12 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:44:37: executing "metrics.html" at <.TotalViews>: can't evaluate field TotalViews in type int
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:842 (0x9f4795)
+	(*Context).Render: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:851 (0x9f4858)
+	(*Context).HTML: c.Render(code, instance)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:42 (0xa0a1d8)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:21 (0xa0990d)
+	GinMiddleware.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa12225)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa04564)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa03664)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa8b9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9fac)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74ebe2)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a2ec)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 23:24:13 [Recovery] 2021/03/01 - 23:24:13 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:44:37: executing "metrics.html" at <.TotalViews>: can't evaluate field TotalViews in type int
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:842 (0x9f4795)
+	(*Context).Render: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:851 (0x9f4858)
+	(*Context).HTML: c.Render(code, instance)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:42 (0xa0a1d8)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:21 (0xa0990d)
+	GinMiddleware.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa12225)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa04564)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa03664)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa8b9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9fac)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74ebe2)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a2ec)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 23:24:16 [Recovery] 2021/03/01 - 23:24:16 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:44:37: executing "metrics.html" at <.TotalViews>: can't evaluate field TotalViews in type int
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:842 (0x9f4795)
+	(*Context).Render: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:851 (0x9f4858)
+	(*Context).HTML: c.Render(code, instance)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:42 (0xa0a1d8)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:21 (0xa0990d)
+	GinMiddleware.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa12225)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa04564)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa03664)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa8b9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9fac)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74ebe2)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a2ec)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 23:25:30 [Recovery] 2021/03/01 - 23:25:30 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:44:37: executing "metrics.html" at <.TotalViews>: can't evaluate field TotalViews in type int
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:842 (0x9f4795)
+	(*Context).Render: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:851 (0x9f4858)
+	(*Context).HTML: c.Render(code, instance)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:42 (0xa0a1d8)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:21 (0xa0990d)
+	GinMiddleware.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa12225)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa04564)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa03664)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa8b9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9fac)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74ebe2)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a2ec)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 23:25:31 [Recovery] 2021/03/01 - 23:25:31 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:44:37: executing "metrics.html" at <.TotalViews>: can't evaluate field TotalViews in type int
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:842 (0x9f4795)
+	(*Context).Render: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:851 (0x9f4858)
+	(*Context).HTML: c.Render(code, instance)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:42 (0xa0a1d8)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:21 (0xa0990d)
+	GinMiddleware.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa12225)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa04564)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa03664)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa8b9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9fac)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74ebe2)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a2ec)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 23:25:31 [Recovery] 2021/03/01 - 23:25:31 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:44:37: executing "metrics.html" at <.TotalViews>: can't evaluate field TotalViews in type int
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:842 (0x9f4795)
+	(*Context).Render: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:851 (0x9f4858)
+	(*Context).HTML: c.Render(code, instance)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:42 (0xa0a1d8)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:21 (0xa0990d)
+	GinMiddleware.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa12225)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa04564)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa03664)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa8b9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9fac)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74ebe2)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a2ec)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 23:25:32 [Recovery] 2021/03/01 - 23:25:32 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:44:37: executing "metrics.html" at <.TotalViews>: can't evaluate field TotalViews in type int
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:842 (0x9f4795)
+	(*Context).Render: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:851 (0x9f4858)
+	(*Context).HTML: c.Render(code, instance)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:42 (0xa0a1d8)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:21 (0xa0990d)
+	GinMiddleware.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa12225)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa04564)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa03664)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa8b9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9fac)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74ebe2)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a2ec)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/01 23:26:31 [Recovery] 2021/03/01 - 23:26:31 panic recovered:
+GET /metrics HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+template: metrics.html:44:37: executing "metrics.html" at <.TotalViews>: can't evaluate field TotalViews in type int
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:842 (0x9f4795)
+	(*Context).Render: panic(err)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:851 (0x9f4858)
+	(*Context).HTML: c.Render(code, instance)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:42 (0xa0a1d8)
+	InfoHandler.func1: c.HTML(200, "metrics.html", gin.H{
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/src/app/internal/pkg/metrics/metrics.go:21 (0xa0990d)
+	GinMiddleware.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-contrib/sessions@v0.0.3/sessions.go:52 (0xa12225)
+	Sessions.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa04564)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa03664)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9f089a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0x9fa8b9)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0x9f9fac)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74ebe2)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a2ec)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
