@@ -3,7 +3,6 @@ package server
 
 import (
 	"app/internal/pkg/configs"
-	"app/internal/pkg/metrics"
 	"app/internal/pkg/middlewares"
 	"app/internal/pkg/sessions"
 	"fmt"
@@ -70,7 +69,6 @@ func Init() {
 	Router.Use(gin.Recovery())
 
 	Router.Use(sessions.Middleware())
-	Router.Use(metrics.GinMiddleware())
 
 	Router.FuncMap = template.FuncMap{
 		"percent": func(i, total int) string {

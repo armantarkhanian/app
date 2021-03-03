@@ -6,6 +6,7 @@
              width:auto;
              margin-bottom:20px;
              margin-right:10px;
+             float:left;
          }
          * {
              box-sizing:border-box;
@@ -23,37 +24,26 @@
         {{ $total := .TotalViews }}
         {{ .Time }}
         <table>
-            <tr>
-                <td><b>Total views</b></td>
-            </tr>
-            <tr>
-                <td>{{$total}}</td>
-            </tr>
-        </table>
-        
-
-        <table>
             <tr>                
-                <td colspan="2" style="text-align:center;"><b>Max Latency</b></td>
+                <td colspan="2" style="text-align:center;"><b>Max Latency (ms)</b></td>
             </tr>
-            {{range $key, $value := .MaxLatency}}
+            {{range .MaxLatency}}
             <tr>
-                <td>{{$key}}</td>
-                <td>{{$value}}</td>
+                <td>{{.Key}}</td>
+                <td>{{.Value}}</td>
             </tr>
             {{end}}
         </table>
         
-
         <table>
             <tr>
-                <td colspan="3" style="text-align:center;"><b>Endpoints</b></td>
+                <td colspan="3" style="text-align:center;"><b>Endpoint {{$total}}</b></td>
             </tr>
-            {{range $key, $value := .Endpoints}}
+            {{range .Handlers}}
             <tr>
-                <td>{{$key}}</td>
-                <td>{{$value}}</td>
-                <td>{{percent $value $total}} %</td>
+                <td>{{.Key}}</td>
+                <td>{{.Value}}</td>
+                <td>{{percent .Value $total}} %</td>
             </tr>
             {{end}}
         </table>
@@ -62,11 +52,11 @@
             <tr>
                 <td colspan="3" style="text-align:center;"><b>OS</b></td>
             </tr>
-            {{range $key, $value := .Os}}
+            {{range .Os}}
             <tr>
-                <td>{{$key}}</td>
-                <td>{{$value}}</td>
-                <td>{{percent $value $total}} %</td>
+                <td>{{.Key}}</td>
+                <td>{{.Value}}</td>
+                <td>{{percent .Value $total}} %</td>
             </tr>
             {{end}}
         </table>
@@ -75,11 +65,11 @@
             <tr>
                 <td colspan="3" style="text-align:center;"><b>Countries</b></td>
             </tr>
-            {{range $key, $value := .Countries}}
+            {{range .Countries}}
             <tr>
-                <td>{{$key}}</td>
-                <td>{{$value}}</td>                
-                <td>{{percent $value $total}} %</td>
+                <td>{{.Key}}</td>
+                <td>{{.Value}}</td>                
+                <td>{{percent .Value $total}} %</td>
             </tr>
             {{end}}
         </table>
@@ -88,11 +78,11 @@
             <tr>
                 <td colspan="3" style="text-align:center;"><b>Genders</b></td>
             </tr>
-            {{range $key, $value := .Genders}}
+            {{range .Genders}}
             <tr>
-                <td>{{$key}}</td>
-                <td>{{$value}}</td>                
-                <td>{{percent $value $total}} %</td>
+                <td>{{.Key}}</td>
+                <td>{{.Value}}</td>                
+                <td>{{percent .Value $total}} %</td>
             </tr>
             {{end}}
         </table>
@@ -102,11 +92,11 @@
             <tr>
                 <td colspan="3" style="text-align:center;"><b>Browsers</b></td>
             </tr>
-            {{range $key, $value := .Browsers}}
+            {{range .Browsers}}
             <tr>
-                <td>{{$key}}</td>
-                <td>{{$value}}</td>                
-                <td>{{percent $value $total}} %</td>
+                <td>{{.Key}}</td>
+                <td>{{.Value}}</td>                
+                <td>{{percent .Value $total}} %</td>
             </tr>
             {{end}}
         </table>

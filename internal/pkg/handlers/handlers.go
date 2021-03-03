@@ -2,11 +2,8 @@
 package handlers
 
 import (
-	"app/internal/pkg/configs"
-	"app/internal/pkg/metrics"
 	"app/internal/pkg/server"
 	"app/internal/pkg/sessions"
-	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -28,11 +25,11 @@ func maleGender(c *gin.Context) {
 
 func panicHandler(c *gin.Context) {
 	time.Sleep(1 * time.Second)
-	c.IndentedJSON(http.StatusOK, configs.Store)
+	c.String(200, "good")
 }
 
 func Init() {
 	server.Router.GET("/female", femaleHandler)
 	server.Router.GET("/male", maleGender)
-	server.Router.GET("/metrics", metrics.InfoHandler())
+	server.Router.GET("/panic", panicHandler)
 }
