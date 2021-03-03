@@ -1,5 +1,5 @@
-// Package middlewares ...
-package middlewares
+// Package logger ...
+package logger
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func HumanReadableLogger() gin.HandlerFunc {
+func Middleware() gin.HandlerFunc {
 	return gin.LoggerWithConfig(gin.LoggerConfig{
 		Formatter: func(param gin.LogFormatterParams) string {
 			if param.Latency > time.Minute {

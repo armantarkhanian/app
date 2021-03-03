@@ -2,6 +2,6 @@
 package sessions
 
 type Session struct {
-	UserID string
-	Gender string
+	UserID     string
+	CountryISO string
 }

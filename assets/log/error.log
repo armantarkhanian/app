@@ -1794,3 +1794,179 @@ template: metrics.html:31:36: executing "metrics.html" at <.MaxLatency>: range c
 /usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
 	goexit: BYTE	$0x90	// NOP
 [0m
+
+
+[31m2021/03/03 20:00:13 [Recovery] 2021/03/03 - 20:00:13 panic recovered:
+GET / HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+not found
+/home/arman/go/src/app/internal/pkg/geoip/geoip.go:33 (0xa10eca)
+	CountryCodeByIP: panic(err)
+/home/arman/go/src/app/internal/pkg/geoip/geoip.go:25 (0xa10f26)
+	Middleware.func1: c.Set("countryCode", CountryCodeByIP(c.ClientIP()))
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa0f624)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa0e724)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0xa05979)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0xa0506c)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74eb22)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a22c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/03 20:00:15 [Recovery] 2021/03/03 - 20:00:15 panic recovered:
+GET / HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+not found
+/home/arman/go/src/app/internal/pkg/geoip/geoip.go:33 (0xa10eca)
+	CountryCodeByIP: panic(err)
+/home/arman/go/src/app/internal/pkg/geoip/geoip.go:25 (0xa10f26)
+	Middleware.func1: c.Set("countryCode", CountryCodeByIP(c.ClientIP()))
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa0f624)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa0e724)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0xa05979)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0xa0506c)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74eb22)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a22c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/03 20:00:17 [Recovery] 2021/03/03 - 20:00:17 panic recovered:
+GET / HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+not found
+/home/arman/go/src/app/internal/pkg/geoip/geoip.go:33 (0xa10eca)
+	CountryCodeByIP: panic(err)
+/home/arman/go/src/app/internal/pkg/geoip/geoip.go:25 (0xa10f26)
+	Middleware.func1: c.Set("countryCode", CountryCodeByIP(c.ClientIP()))
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa0f624)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa0e724)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0xa05979)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0xa0506c)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74eb22)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a22c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
+
+
+[31m2021/03/03 20:00:18 [Recovery] 2021/03/03 - 20:00:18 panic recovered:
+GET / HTTP/1.1
+Host: localhost:8080
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36
+
+
+not found
+/home/arman/go/src/app/internal/pkg/geoip/geoip.go:33 (0xa10eca)
+	CountryCodeByIP: panic(err)
+/home/arman/go/src/app/internal/pkg/geoip/geoip.go:25 (0xa10f26)
+	Middleware.func1: c.Set("countryCode", CountryCodeByIP(c.ClientIP()))
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/recovery.go:83 (0xa0f624)
+	RecoveryWithWriter.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/logger.go:241 (0xa0e724)
+	LoggerWithConfig.func1: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 (0x9fb95a)
+	(*Context).Next: c.handlers[c.index](c)
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 (0xa05979)
+	(*Engine).handleHTTPRequest: c.Next()
+/home/arman/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 (0xa0506c)
+	(*Engine).ServeHTTP: engine.handleHTTPRequest(c)
+/usr/local/go/src/net/http/server.go:2843 (0x74eb22)
+	serverHandler.ServeHTTP: handler.ServeHTTP(rw, req)
+/usr/local/go/src/net/http/server.go:1925 (0x74a22c)
+	(*conn).serve: serverHandler{c.server}.ServeHTTP(w, w.req)
+/usr/local/go/src/runtime/asm_amd64.s:1374 (0x46c4a0)
+	goexit: BYTE	$0x90	// NOP
+[0m
