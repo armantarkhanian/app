@@ -4,6 +4,7 @@ package sessions
 import (
 	"app/internal/pkg/configs"
 	"encoding/gob"
+	"time"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -13,7 +14,7 @@ import (
 var store cookie.Store
 
 func Init() {
-	gob.Register(Session{})
+	gob.Register(time.Time{})
 
 	store = cookie.NewStore(
 		[]byte("4aceccc4ae3d43e28e7788c6165105e0"),
@@ -31,26 +32,4 @@ func Init() {
 
 func Middleware() gin.HandlerFunc {
 	return sessions.Sessions("session", store)
-}
-
-func (sessionStruct *Session) Save(c *gin.Context) error {
-	session := sessions.Default(c)
-	session.Set("session", sessionStruct)
-	return session.Save()
-}
-
-func Get(c *gin.Context) *Session {
-	sessionStruct, _ := sessions.Default(c).Get("session").(Session)
-	return &sessionStruct
-}
-
-func DeleteCookie(c *gin.Context) {
-	c.SetCookie("session",
-		"",
-		-1,
-		"/",
-		configs.Store.Sessions.Domain,
-		configs.Store.Sessions.Secure,
-		true,
-	)
 }

@@ -63,9 +63,10 @@ type sessionsConfig struct {
 }
 
 type ginConfig struct {
-	Addr     string   `json:"addr" validate:"required"`
-	Timeouts timeouts `json:"timeouts" validate:"required"`
-	Mode     string   `json:"mode" validate:"required,oneof=test debug release"`
+	Addr                       string   `json:"addr" validate:"required"`
+	Timeouts                   timeouts `json:"timeouts" validate:"required"`
+	Mode                       string   `json:"mode" validate:"required,oneof=test debug release"`
+	QueriesPerMinuteForCaptcha int      `json:"queriesPerMinuteForCaptcha"`
 }
 
 type timeouts struct {
