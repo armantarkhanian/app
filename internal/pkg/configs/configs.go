@@ -15,14 +15,15 @@ import (
 var Store *Configs
 
 func init() {
-	f, err := os.OpenFile("./logs/log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	logFile, err := os.OpenFile("./logs/log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	gin.DefaultErrorWriter = io.MultiWriter(f)
+
+	gin.DefaultErrorWriter = io.MultiWriter(logFile)
 
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile | log.LUTC)
-	log.SetOutput(f)
+	log.SetOutput(logFile)
 }
 
 func Init() {

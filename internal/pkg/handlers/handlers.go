@@ -15,7 +15,9 @@ func index(c *gin.Context) {
 
 func panicH(c *gin.Context) {
 	array := []int{1, 2, 3}
-	fmt.Println(array[5])
+	if len(array) > 5 {
+		fmt.Println(array[5])
+	}
 	c.HTML(http.StatusOK, "index.html", nil)
 }
 
