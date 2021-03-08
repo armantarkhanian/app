@@ -3,9 +3,6 @@
         "telegram": {
             "botToken": "",
             "chatID": ""
-        },
-        "slack": {
-            
         }
     },
 
@@ -23,13 +20,6 @@
             "write": "15s",
             "idle": "15s",
             "shutdown": "15s"
-        },
-        
-        "log": {
-            "accessLogFile": "./assets/log/access.log",
-            "errorLogFile": "./assets/log/error.log",
-            "useStdOut": false,
-            "useStdErr": false
         }
     }
 }

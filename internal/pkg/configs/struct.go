@@ -23,17 +23,9 @@ type sessionsConfig struct {
 }
 
 type ginConfig struct {
-	Addr     string    `json:"addr" validate:"required"`
-	Timeouts timeouts  `json:"timeouts" validate:"required"`
-	Mode     string    `json:"mode" validate:"required,oneof=test debug release"`
-	Log      logConfig `json:"log"`
-}
-
-type logConfig struct {
-	AccessLogFile string `json:"accessLogFile"`
-	ErrorLogFile  string `json:"errorLogFile"`
-	UseStdOut     bool   `json:"useStdOut"`
-	UseStdErr     bool   `json:"userStdErr"`
+	Addr     string   `json:"addr" validate:"required"`
+	Timeouts timeouts `json:"timeouts" validate:"required"`
+	Mode     string   `json:"mode" validate:"required,oneof=test debug release"`
 }
 
 type timeouts struct {

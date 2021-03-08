@@ -3,10 +3,24 @@ package logger
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
+
+func Recovery() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		defer func() {
+			if err := recover(); err != nil {
+				log.Println("[PANIC]", c.HandlerName(), err)
+				c.HTML(200, "panic.html", nil)
+				c.Abort()
+			}
+		}()
+		c.Next()
+	}
+}
 
 func Middleware() gin.HandlerFunc {
 	return gin.LoggerWithConfig(gin.LoggerConfig{

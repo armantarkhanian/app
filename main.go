@@ -5,6 +5,7 @@ import (
 	"app/internal/pkg/handlers"
 	"app/internal/pkg/server"
 	"app/internal/pkg/sessions"
+	"log"
 )
 
 func init() {
@@ -15,5 +16,7 @@ func init() {
 }
 
 func main() {
+	log.Println("This is a test log entry")
+
 	server.Run()
 }

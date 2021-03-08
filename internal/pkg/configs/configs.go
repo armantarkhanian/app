@@ -2,19 +2,33 @@
 package configs
 
 import (
+	"io"
 	"log"
+	"os"
 
 	"github.com/fsnotify/fsnotify"
+	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/spf13/viper"
 )
 
 var Store *Configs
 
+func init() {
+	f, err := os.OpenFile("./logs/log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	gin.DefaultErrorWriter = io.MultiWriter(f)
+
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile | log.LUTC)
+	log.SetOutput(f)
+}
+
 func Init() {
 	Store = &Configs{}
 	v := viper.New()
-	v.SetConfigFile("./configs/config.json")
+	v.SetConfigFile("./config.json")
 	v.SetConfigType("json")
 
 	err := v.ReadInConfig()
