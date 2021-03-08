@@ -10745,3 +10745,38 @@ Error #02: err 2
 [GIN-debug] GET    /                         --> app/internal/pkg/handlers.index (5 handlers)
 03 Mar 2021 20:03:49 MSK |             ::1 |     526.654µs | 200 | [GET]     | / 
 03 Mar 2021 20:12:14 MSK |             ::1 |    1.225034ms | 200 | [GET]     | / 
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] Loaded HTML Templates (2): 
+	- 
+	- index.html
+
+[GIN-debug] GET    /static/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] HEAD   /static/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] GET    /                         --> app/internal/pkg/handlers.index (5 handlers)
+08 Mar 2021 12:55:00 MSK |             ::1 |     433.612µs | 200 | [GET]     | / 
+08 Mar 2021 12:55:01 MSK |             ::1 |      11.172µs | 404 | [GET]     | /favicon.ico 
+08 Mar 2021 12:55:04 MSK |             ::1 |      15.053µs | 404 | [GET]     | /assets/css/main.css 
+08 Mar 2021 12:55:08 MSK |             ::1 |     285.638µs | 200 | [GET]     | / 
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] Loaded HTML Templates (2): 
+	- 
+	- index.html
+
+[GIN-debug] GET    /static/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] HEAD   /static/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] GET    /                         --> app/internal/pkg/handlers.index (5 handlers)
+[GIN-debug] GET    /set                      --> app/internal/pkg/handlers.set (5 handlers)
+[GIN-debug] GET    /get                      --> app/internal/pkg/handlers.get (5 handlers)
+[GIN-debug] GET    /delete                   --> app/internal/pkg/handlers.delete (5 handlers)
+08 Mar 2021 12:58:18 MSK |             ::1 |     488.874µs | 200 | [GET]     | / 
+08 Mar 2021 12:58:21 MSK |             ::1 |     100.776µs | 200 | [GET]     | /get 
+08 Mar 2021 12:58:26 MSK |             ::1 |     269.924µs | 200 | [GET]     | /set 
+08 Mar 2021 12:58:28 MSK |             ::1 |     286.361µs | 200 | [GET]     | /get 
+08 Mar 2021 12:58:31 MSK |             ::1 |      66.544µs | 200 | [GET]     | /delete 
+08 Mar 2021 12:58:33 MSK |             ::1 |       52.68µs | 200 | [GET]     | /get 

@@ -16,8 +16,8 @@ func Init() {
 	gob.Register(Session{})
 
 	store = cookie.NewStore(
-		[]byte(configs.Store.Sessions.AuthenticationKey),
-		[]byte(configs.Store.Sessions.EncryptionKey),
+		[]byte("4aceccc4ae3d43e28e7788c6165105e0"),
+		[]byte("b9de910cded0409fb20655a7ccdc2b96"),
 	)
 
 	store.Options(sessions.Options{
@@ -30,22 +30,22 @@ func Init() {
 }
 
 func Middleware() gin.HandlerFunc {
-	return sessions.Sessions(configs.Store.Sessions.Name, store)
+	return sessions.Sessions("session", store)
 }
 
 func (sessionStruct *Session) Save(c *gin.Context) error {
 	session := sessions.Default(c)
-	session.Set(configs.Store.Sessions.Name, sessionStruct)
+	session.Set("session", sessionStruct)
 	return session.Save()
 }
 
 func Get(c *gin.Context) *Session {
-	sessionStruct, _ := sessions.Default(c).Get(configs.Store.Sessions.Name).(Session)
+	sessionStruct, _ := sessions.Default(c).Get("session").(Session)
 	return &sessionStruct
 }
 
 func DeleteCookie(c *gin.Context) {
-	c.SetCookie(configs.Store.Sessions.Name,
+	c.SetCookie("session",
 		"",
 		-1,
 		"/",

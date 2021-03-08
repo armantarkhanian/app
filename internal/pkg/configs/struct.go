@@ -2,9 +2,13 @@
 package configs
 
 type Configs struct {
-	TelegramNotify telegramNotify `json:"telegramNotify"`
-	Sessions       sessionsConfig `json:"sessions"`
-	Gin            ginConfig      `json:"gin"`
+	Notify   notify         `json:"notify"`
+	Sessions sessionsConfig `json:"sessions"`
+	Gin      ginConfig      `json:"gin"`
+}
+
+type notify struct {
+	Telegram telegramNotify `json:"telegram"`
 }
 
 type telegramNotify struct {
@@ -13,12 +17,9 @@ type telegramNotify struct {
 }
 
 type sessionsConfig struct {
-	Name              string `json:"name" validate:"required,alphanum"`
-	AuthenticationKey string `json:"authenticationKey" validate:"required,alphanum,len=32"`
-	EncryptionKey     string `json:"encryptionKey" validate:"required,alphanum,len=32"`
-	Domain            string `json:"domain" validate:"required"`
-	MaxAge            int    `json:"maxAge" validate:"required"`
-	Secure            bool   `json:"secure"`
+	Domain string `json:"domain" validate:"required"`
+	MaxAge int    `json:"maxAge" validate:"required"`
+	Secure bool   `json:"secure"`
 }
 
 type ginConfig struct {
