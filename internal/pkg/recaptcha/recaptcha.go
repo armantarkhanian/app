@@ -13,22 +13,21 @@ import (
 
 func Middleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		if configs.Store.Gin.QueriesPerMinuteForCaptcha <= 0 {
+			c.Next()
+			return
+		}
 		session := sessions.Default(c)
 		needCaptcha, _ := session.Get("needCaptcha").(bool)
 		if needCaptcha {
 			c.IndentedJSON(200, gin.H{
-				"error": "too many queries per second",
+				"error": "too many queries",
 			})
 			c.Abort()
 			return
 		}
 		lastActionTime, _ := session.Get("lastActionTime").(time.Time)
 		qps, _ := session.Get("qps").(int)
-
-		if configs.Store.Gin.QueriesPerMinuteForCaptcha <= 0 {
-			c.Next()
-			return
-		}
 
 		if lastActionTime.IsZero() {
 			session.Set("lastActionTime", time.Now().UTC())
@@ -48,7 +47,7 @@ func Middleware() gin.HandlerFunc {
 					log.Println("[ERROR]", err)
 				}
 				c.IndentedJSON(200, gin.H{
-					"error": "too many queries per second",
+					"error": "too many queries",
 				})
 				c.Abort()
 			} else {

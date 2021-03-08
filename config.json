@@ -1,8 +1,8 @@
 {
     "notify": {
         "telegram": {
-            "botToken": "1496616770:AAE4qrK4DjzRTASpGg7YD4WRtM6Pm-vqv-E",
-            "chatID": "-1001383767915"
+            "botToken": "",
+            "chatID": ""
         }
     },
 
@@ -21,6 +21,6 @@
             "idle": "15s",
             "shutdown": "15s"
         },
-        "queriesPerMinuteForCaptcha": 15
+        "queriesPerMinuteForCaptcha": 80
     }
 }
