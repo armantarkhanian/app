@@ -4,16 +4,35 @@ package logger
 import (
 	"fmt"
 	"log"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
+func Init() {
+	logFile, err := os.OpenFile("./logs/main.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalln("[FATAL] error opening file:", err)
+	}
+	accessLog, err := os.OpenFile("./logs/http.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalln("[FATAL] error opening file:", err)
+	}
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile | log.LUTC)
+	log.SetOutput(logFile)
+
+	gin.DefaultWriter = accessLog
+	gin.DefaultErrorWriter = logFile
+}
+
 func Recovery() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
 			if err := recover(); err != nil {
-				log.Println("[PANIC]", c.HandlerName(), err)
+				array := strings.Split(c.HandlerName(), "/")
+				log.Println("[PANIC]", array[len(array)-1], err)
 				c.HTML(200, "panic.html", nil)
 				c.Abort()
 			}
@@ -39,7 +58,7 @@ func Middleware() gin.HandlerFunc {
 				param.Latency,
 				param.StatusCode,
 				"["+param.Method+"]",
-				param.Request.URL.Path,
+				param.Path,
 				param.ErrorMessage,
 			) + "\n"
 		},

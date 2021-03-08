@@ -1,6 +1,13 @@
 // Package configs ...
 package configs
 
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"net/url"
+)
+
 type Configs struct {
 	Notify   notify         `json:"notify"`
 	Sessions sessionsConfig `json:"sessions"`
@@ -14,6 +21,39 @@ type notify struct {
 type telegramNotify struct {
 	BotToken string `json:"botToken"`
 	ChatID   string `json:"chatID"`
+}
+
+func (telegramWriter *telegramNotify) Write(p []byte) (n int, err error) {
+	str := string(p)
+	fmt.Println(telegramWriter)
+	baseURL, err := url.Parse("https://api.telegram.org/bot" + telegramWriter.BotToken + "/sendMessage")
+	if err != nil {
+		log.Println("[telegram]", err)
+		return 0, err
+	}
+
+	params := url.Values{}
+
+	params.Add("chat_id", telegramWriter.ChatID)
+	params.Add("text", str)
+
+	baseURL.RawQuery = params.Encode()
+
+	link := baseURL.String()
+
+	resp, err := http.Get(link)
+	if err != nil {
+		log.Println("[telegram]", err)
+		return 0, err
+	}
+	defer resp.Body.Close()
+
+	if err != nil {
+		log.Println("[telegram]", err)
+		return 0, err
+	}
+
+	return 0, resp.Body.Close()
 }
 
 type sessionsConfig struct {

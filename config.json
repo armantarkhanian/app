@@ -1,8 +1,8 @@
 {
     "notify": {
         "telegram": {
-            "botToken": "",
-            "chatID": ""
+            "botToken": "1496616770:AAE4qrK4DjzRTASpGg7YD4WRtM6Pm-vqv-E",
+            "chatID": "-1001383767915"
         }
     },
 
@@ -14,7 +14,7 @@
 
     "gin": {
         "addr": ":8080",
-        "mode": "debug",
+        "mode": "release",
         "timeouts": {
             "read": "15s",
             "write": "15s",

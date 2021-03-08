@@ -33,24 +33,25 @@ func Init() {
 
 	readTimeout, err := time.ParseDuration(configs.Store.Gin.Timeouts.Read)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatalln("[FATAL]", err)
 	}
 	writeTimeout, err = time.ParseDuration(configs.Store.Gin.Timeouts.Write)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatalln("[FATAL]", err)
 	}
 	idleTimeout, err = time.ParseDuration(configs.Store.Gin.Timeouts.Idle)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatalln("[FATAL]", err)
 	}
 
 	shutdownTimeout, err = time.ParseDuration(configs.Store.Gin.Timeouts.Shutdown)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatalln("[FATAL]", err)
 	}
 
 	Router = gin.New()
 	Router.Use(logger.Recovery())
+	Router.Use(logger.Middleware())
 	Router.Use(geoip.Middleware())
 	Router.Use(sessions.Middleware())
 
@@ -69,8 +70,9 @@ func Init() {
 func Run() {
 
 	go func() {
+		log.Println("[INFO] running server on", configs.Store.Gin.Addr)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("listen: %s\n", err)
+			log.Fatalln("[FATAL]", err)
 		}
 	}()
 
@@ -78,14 +80,13 @@ func Run() {
 
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-	log.Println("Shutting down server...")
+	log.Println("[INFO] shutting down server...")
 
 	ctx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
 	defer cancel()
 	if err := server.Shutdown(ctx); err != nil {
-		log.Fatal("Server forced to shutdown:", err)
+		log.Fatalln("[WARNING] server forced to shutdown:", err)
 	}
 
-	log.Println("Server exiting")
-
+	log.Println("[INFO] server exiting properly")
 }

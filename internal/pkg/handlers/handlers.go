@@ -13,15 +13,14 @@ func index(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", nil)
 }
 
-func panicH(c *gin.Context) {
-	array := []int{1, 2, 3}
-	if len(array) > 5 {
-		fmt.Println(array[5])
-	}
+func friends(c *gin.Context) {
+	b := 0
+	var id int = 15 / b
+	fmt.Println(id)
 	c.HTML(http.StatusOK, "index.html", nil)
 }
 
 func Init() {
 	server.Router.GET("/", index)
-	server.Router.GET("/panic", panicH)
+	server.Router.GET("/friends", friends)
 }
