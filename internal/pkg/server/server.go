@@ -6,7 +6,11 @@ import (
 	"app/internal/pkg/geoip"
 	"app/internal/pkg/logger"
 	"app/internal/pkg/sessions"
+	"context"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"log"
@@ -18,9 +22,10 @@ var (
 	Router *gin.Engine
 	server *http.Server
 
-	readTimeout  time.Duration
-	writeTimeout time.Duration
-	idleTimeout  time.Duration
+	readTimeout     time.Duration
+	writeTimeout    time.Duration
+	idleTimeout     time.Duration
+	shutdownTimeout time.Duration
 )
 
 func Init() {
@@ -35,6 +40,11 @@ func Init() {
 		log.Fatalln(err)
 	}
 	idleTimeout, err = time.ParseDuration(configs.Store.Gin.Timeouts.Idle)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	shutdownTimeout, err = time.ParseDuration(configs.Store.Gin.Timeouts.Shutdown)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -57,8 +67,25 @@ func Init() {
 }
 
 func Run() {
-	err := server.ListenAndServe()
-	if err != nil {
-		log.Fatalln(err)
+
+	go func() {
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s\n", err)
+		}
+	}()
+
+	quit := make(chan os.Signal, 1)
+
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	log.Println("[INFO] Shutting down server...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
+	defer cancel()
+	if err := server.Shutdown(ctx); err != nil {
+		log.Fatal("[INFO] Server forced to shutdown:", err)
 	}
+
+	log.Println("[INFO] Server exiting")
+
 }
