@@ -3,9 +3,7 @@ package server
 
 import (
 	"app/internal/pkg/configs"
-	"app/internal/pkg/geoip"
-	"app/internal/pkg/logger"
-	"app/internal/pkg/sessions"
+	"app/internal/pkg/middlewares"
 	"context"
 	"net/http"
 	"os"
@@ -50,10 +48,10 @@ func Init() {
 	}
 
 	Router = gin.New()
-	Router.Use(logger.Recovery())
-	Router.Use(logger.Middleware())
-	Router.Use(geoip.Middleware())
-	Router.Use(sessions.Middleware())
+	Router.Use(middlewares.Recovery())
+	Router.Use(middlewares.AccessLogger())
+	Router.Use(middlewares.GeoIP())
+	Router.Use(middlewares.Sessions())
 
 	Router.Delims("[[", "]]")
 

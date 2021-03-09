@@ -5,7 +5,6 @@ import (
 	"net"
 
 	"github.com/IncSW/geoip2"
-	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -17,13 +16,6 @@ func init() {
 	reader, err = geoip2.NewCityReaderFromFile("/usr/share/GeoIP/GeoLite2-City.mmdb")
 	if err != nil {
 		panic(err)
-	}
-}
-
-func Middleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Set("countryCode", CountryCodeByIP(c.ClientIP()))
-		c.Next()
 	}
 }
 

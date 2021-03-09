@@ -2,38 +2,45 @@
 package handlers
 
 import (
+	"app/internal/pkg/middlewares"
 	"app/internal/pkg/recaptcha"
 	"app/internal/pkg/server"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
 
-func index(c *gin.Context) {
-	c.HTML(200, "index.html", gin.H{
-		"message": "",
-	})
+type apiRequest struct {
+	Method  string `json:"method"`
+	Version string `json:"version"`
+	Data    string `json:"data"`
 }
 
-func users(c *gin.Context) {
-	type user struct {
-		Name string `json:"name"`
-	}
-	type response struct {
-		Users []user `json:"users"`
-	}
-	resp := response{
-		Users: []user{
-			{"arman 1"},
-			{"arman 2"},
-			{"arman 3"},
-			{"arman 4"},
+var (
+	supportedMethods = map[string]map[string]gin.HandlerFunc{
+		"createAccount": {
+			"1.0": createAccount1,
+		},
+		"verifyCaptcha": {
+			"1.0": recaptcha.VerifyCaptcha,
 		},
 	}
-	c.JSON(200, resp)
-}
+)
 
 func Init() {
-	server.Router.GET("/", index)
-	server.Router.POST("/ok", recaptcha.CheckCaptcha)
-	server.Router.GET("/users", recaptcha.Middleware(), users)
+	server.Router.POST("/internal/api", middlewares.RecaptchaProtect(), func(c *gin.Context) {
+		var request apiRequest
+		if err := c.ShouldBindJSON(&request); err != nil {
+			log.Println("[ERROR]", err)
+			c.JSON(200, gin.H{"error": err})
+			return
+		}
+		handlerFunc, exists := supportedMethods[request.Method][request.Version]
+		if !exists {
+			c.JSON(200, gin.H{"error": "unsupported method or version"})
+			return
+		}
+		c.Set("requestData", request.Data)
+		handlerFunc(c)
+	})
 }

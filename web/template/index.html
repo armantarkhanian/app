@@ -7,35 +7,7 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
         <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"></script>
-        
-        <script type="text/javascript">
-         var onloadCallback = function() {             
-             grecaptcha.render('html_element', {
-                 'sitekey' : '6Le_BHgaAAAAAO36nUx-EwsaNYOvhJ90FtbHGCFb',
-                 'callback' : function(response) {
-                     const params = new URLSearchParams()
-                     params.append('g-recaptcha-response', response)
-                     const config = {
-                         headers: {
-                             'Content-Type': 'application/x-www-form-urlencoded'
-                         }
-                     }
-                     axios.post("/ok", params, config).then(response => {
-                         grecaptcha.reset(document.getElementById('html_element'));
-                         if (response.data.ok == true) {
-                             document.getElementById("block").style.display = "none";
-                         } else {
-                             document.getElementById("block").style.display = "block";
-                         }
-                     }).catch((err) => {
-                         alert(err);
-                     });
-                 },
-                 'theme' : 'light',
-                 'hl': 'ru'
-             });
-         };
-        </script>
+        <script src="/static/js/captcha.js"></script>
         <style>
          #block {
              padding:50px;
@@ -49,37 +21,31 @@
         </style>
     </head>
     <body>
-        <div id="block">            
-            <div id="html_element"></div>
-        </div>
-
+        [[ template "captcha_block.html" ]]
         <div id="app">
             <button v-on:click="loadUsers" id="button">Load</button>
-            <div v-if="users.length == 0">
-                No users
+            <div v-if="users.length < 1">
+                You do not have friends yet
             </div>
             <div v-else>
-                <ol>             
-                    <li v-for="user in users">
-                        {{ user.name }}
-                    </li>
-                </ol>
+                <div v-for="user in users">
+                    <b>{{ user.name }}</b>
+                </div>
             </div>
         </div>
     </body>
     <script>
      var app = new Vue({
          el: '#app',
-         data() {
-             return {
-                 users: []
-             };
+
+         data: {
+             users: []
          },
 
          methods: {
              loadUsers: function() {
                  axios.get('/users').then(response => {
-                     if (response.data.error === "too many queries") {
+                     if (response.data.needCaptcha === true) {
                          document.getElementById("block").style.display = "block";
                      } else {
                          document.getElementById("block").style.display = "none";

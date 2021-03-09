@@ -21,6 +21,6 @@
             "idle": "15s",
             "shutdown": "15s"
         },
-        "queriesPerMinuteForCaptcha": 15
+        "queriesPerMinuteForCaptcha": 80
     }
 }
