@@ -20,14 +20,7 @@ func ok(c *gin.Context) {
 }
 
 func index(c *gin.Context) {
-	session := sessions.Default(c)
-	lastActionTime, _ := session.Get("lastActionTime").(time.Time)
-	qps, _ := session.Get("qps").(int)
-
-	c.IndentedJSON(200, gin.H{
-		"lastActionTime": lastActionTime,
-		"qps":            qps,
-	})
+	c.HTML(200, "index.html", nil)
 }
 
 func Init() {

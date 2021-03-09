@@ -14,7 +14,7 @@
 
     "gin": {
         "addr": ":8080",
-        "mode": "release",
+        "mode": "debug",
         "timeouts": {
             "read": "15s",
             "write": "15s",
