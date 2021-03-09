@@ -27,7 +27,7 @@ type googleResponse struct {
 	ErrorCodes []string `json:"error-codes"`
 }
 
-func VerifyCaptcha(c *gin.Context) {
+func VerifyCaptcha1(c *gin.Context) {
 	session := sessions.Default(c)
 	needCaptch, _ := session.Get("needCaptcha").(bool)
 	if !needCaptch {

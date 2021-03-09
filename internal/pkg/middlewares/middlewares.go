@@ -63,7 +63,7 @@ func AccessLogger() gin.HandlerFunc {
 	})
 }
 
-func RecaptchaProtect() gin.HandlerFunc {
+func RecaptchaProtected() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if configs.Store.Gin.QueriesPerMinuteForCaptcha <= 0 {
 			c.Next()
@@ -115,6 +115,19 @@ func RecaptchaProtect() gin.HandlerFunc {
 		session.Set("qps", 0)
 		if err := session.Save(); err != nil {
 			log.Println("[ERROR]", err)
+		}
+		c.Next()
+	}
+}
+
+func Auth() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		session := sessions.Default(c)
+		userID, _ := session.Get("userID").(string)
+		if userID == "" {
+			c.JSON(200, gin.H{"error": "unauthorized"})
+			c.Abort()
+			return
 		}
 		c.Next()
 	}

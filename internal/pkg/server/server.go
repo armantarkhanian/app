@@ -41,7 +41,6 @@ func Init() {
 	if err != nil {
 		log.Fatalln("[FATAL]", err)
 	}
-
 	shutdownTimeout, err = time.ParseDuration(configs.Store.Gin.Timeouts.Shutdown)
 	if err != nil {
 		log.Fatalln("[FATAL]", err)

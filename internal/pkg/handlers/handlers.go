@@ -11,33 +11,41 @@ import (
 )
 
 type apiRequest struct {
-	Method  string `json:"method"`
-	Version string `json:"version"`
-	Data    string `json:"data"`
+	Data string `json:"data"`
 }
 
 var (
 	supportedMethods = map[string]map[string]gin.HandlerFunc{
 		"createAccount": {
-			"1.0": createAccount1,
+			"v1": createAccount1,
 		},
 		"verifyCaptcha": {
-			"1.0": recaptcha.VerifyCaptcha,
+			"v1": recaptcha.VerifyCaptcha1,
 		},
 	}
 )
 
 func Init() {
-	server.Router.POST("/internal/api", middlewares.RecaptchaProtect(), func(c *gin.Context) {
+	server.Router.POST("/internal/login", login)
+	server.Router.POST("/internal/logout", logout)
+
+	server.Router.POST("/internal/api/:m/:v", middlewares.Auth(), middlewares.RecaptchaProtected(), func(c *gin.Context) {
+		method := c.Param("m")
+		version := c.Param("v")
 		var request apiRequest
 		if err := c.ShouldBindJSON(&request); err != nil {
 			log.Println("[ERROR]", err)
 			c.JSON(200, gin.H{"error": err})
 			return
 		}
-		handlerFunc, exists := supportedMethods[request.Method][request.Version]
+		supportedVersions, exists := supportedMethods[method]
 		if !exists {
-			c.JSON(200, gin.H{"error": "unsupported method or version"})
+			c.JSON(200, gin.H{"error": "unsupported method"})
+			return
+		}
+		handlerFunc, exists := supportedVersions[version]
+		if !exists {
+			c.JSON(200, gin.H{"error": "unsupported version of method"})
 			return
 		}
 		c.Set("requestData", request.Data)
