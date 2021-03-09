@@ -1,12 +1,96 @@
-{{ define "index.html" }}
+[[ define "index.html" ]]
 <!DOCTYPE html>
 <html>
     <head>
         <title>Index</title>
         <meta charset="utf-8">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"></script>
+        
+        <script type="text/javascript">
+         var onloadCallback = function() {             
+             grecaptcha.render('html_element', {
+                 'sitekey' : '6Le_BHgaAAAAAO36nUx-EwsaNYOvhJ90FtbHGCFb',
+                 'callback' : function(response) {
+                     const params = new URLSearchParams()
+                     params.append('g-recaptcha-response', response)
+                     const config = {
+                         headers: {
+                             'Content-Type': 'application/x-www-form-urlencoded'
+                         }
+                     }
+                     axios.post("/ok", params, config).then(response => {
+                         grecaptcha.reset(document.getElementById('html_element'));
+                         if (response.data.ok == true) {
+                             document.getElementById("block").style.display = "none";
+                         } else {
+                             document.getElementById("block").style.display = "block";
+                         }
+                     }).catch((err) => {
+                         alert(err);
+                     });
+                 },
+                 'theme' : 'light',
+                 'hl': 'ru'
+             });
+         };
+        </script>
+        <style>
+         #block {
+             padding:50px;
+             padding-top:100px;
+             padding-bottom:100px;
+             width:max-content;
+             border-radius:10px;
+             background:black;
+             display:none;
+         }
+        </style>
     </head>
     <body>
-        <h1>index.html</h1>
+        <div id="block">            
+            <div id="html_element"></div>
+        </div>
+
+        <div id="app">
+            <button v-on:click="loadUsers" id="button">Load</button>
+            <div v-if="users.length == 0">
+                No users
+            </div>
+            <div v-else>
+                <ol>             
+                    <li v-for="user in users">
+                        {{ user.name }}
+                    </li>
+                </ol>
+            </div>
+        </div>
     </body>
+    <script>
+     var app = new Vue({
+         el: '#app',
+         data() {
+             return {
+                 users: []
+             };
+         },
+
+         methods: {
+             loadUsers: function() {
+                 axios.get('/users').then(response => {
+                     if (response.data.error === "too many queries") {
+                         document.getElementById("block").style.display = "block";
+                     } else {
+                         document.getElementById("block").style.display = "none";
+                         this.users.push(...response.data.users);
+                     }
+                 }).catch(function (error) {
+                     alert(error);
+                 });
+             }
+         }
+     })
+    </script>
 </html>
-{{ end }}
+[[ end ]]

@@ -4,26 +4,36 @@ package handlers
 import (
 	"app/internal/pkg/recaptcha"
 	"app/internal/pkg/server"
-	"time"
-
-	"github.com/gin-contrib/sessions"
 
 	"github.com/gin-gonic/gin"
 )
 
-func ok(c *gin.Context) {
-	session := sessions.Default(c)
-	session.Set("needCaptcha", false)
-	session.Set("qps", 0)
-	session.Set("lastActionTime", time.Time{})
-	session.Save()
+func index(c *gin.Context) {
+	c.HTML(200, "index.html", gin.H{
+		"message": "",
+	})
 }
 
-func index(c *gin.Context) {
-	c.HTML(200, "index.html", nil)
+func users(c *gin.Context) {
+	type user struct {
+		Name string `json:"name"`
+	}
+	type response struct {
+		Users []user `json:"users"`
+	}
+	resp := response{
+		Users: []user{
+			{"arman 1"},
+			{"arman 2"},
+			{"arman 3"},
+			{"arman 4"},
+		},
+	}
+	c.JSON(200, resp)
 }
 
 func Init() {
-	server.Router.GET("/", recaptcha.Middleware(), index)
-	server.Router.GET("/ok", ok)
+	server.Router.GET("/", index)
+	server.Router.POST("/ok", recaptcha.CheckCaptcha)
+	server.Router.GET("/users", recaptcha.Middleware(), users)
 }

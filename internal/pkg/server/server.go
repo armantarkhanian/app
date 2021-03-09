@@ -55,6 +55,8 @@ func Init() {
 	Router.Use(geoip.Middleware())
 	Router.Use(sessions.Middleware())
 
+	Router.Delims("[[", "]]")
+
 	Router.LoadHTMLGlob("./web/template/*.html")
 	Router.Static("/static", "./web/static/")
 

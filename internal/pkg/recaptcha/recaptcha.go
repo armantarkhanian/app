@@ -3,12 +3,18 @@ package recaptcha
 
 import (
 	"app/internal/pkg/configs"
+	"app/internal/pkg/httpclient"
+	"encoding/json"
 	"log"
 	"time"
 
 	"github.com/gin-contrib/sessions"
 
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	secret = "6Le_BHgaAAAAAPpa6p90cH16r3Wn51G21HqAMd5v"
 )
 
 func Middleware() gin.HandlerFunc {
@@ -21,7 +27,8 @@ func Middleware() gin.HandlerFunc {
 		needCaptcha, _ := session.Get("needCaptcha").(bool)
 		if needCaptcha {
 			c.IndentedJSON(200, gin.H{
-				"error": "too many queries",
+				"error":       "too many queries",
+				"needCaptcha": true,
 			})
 			c.Abort()
 			return
@@ -47,7 +54,8 @@ func Middleware() gin.HandlerFunc {
 					log.Println("[ERROR]", err)
 				}
 				c.IndentedJSON(200, gin.H{
-					"error": "too many queries",
+					"error":       "too many queries",
+					"needCaptcha": true,
 				})
 				c.Abort()
 			} else {
@@ -66,4 +74,61 @@ func Middleware() gin.HandlerFunc {
 		}
 		c.Next()
 	}
+}
+
+// CheckCaptcha gets POST request with "g-recaptcha-response" and validate it
+func CheckCaptcha(c *gin.Context) {
+	session := sessions.Default(c)
+	needCaptch, _ := session.Get("needCaptcha").(bool)
+	if !needCaptch {
+		c.JSON(200, gin.H{
+			"ok": true,
+		})
+		return
+	}
+	type response struct {
+		Success    bool     `json:"success"`
+		Hostname   string   `json:"hostname"`
+		ErrorCodes []string `json:"error-codes"`
+	}
+
+	resp, err := httpclient.Post("https://www.google.com/recaptcha/api/siteverify", map[string]string{
+		"response": c.PostForm("g-recaptcha-response"),
+		"secret":   secret,
+		"remoteip": c.ClientIP(),
+	})
+	if err != nil {
+		log.Println("[ERROR]", err)
+		c.JSON(200, gin.H{
+			"ok": false,
+		})
+		return
+	}
+	var respStruct response
+	err = json.Unmarshal(resp, &respStruct)
+	if err != nil {
+		log.Println("[ERROR]", err)
+		c.JSON(200, gin.H{
+			"ok": false,
+		})
+		return
+	}
+	if respStruct.Success {
+		session.Set("lastActionTime", time.Now().UTC())
+		session.Set("qps", 0)
+		session.Set("needCaptcha", false)
+		if err := session.Save(); err != nil {
+			log.Println("[ERROR]", err)
+			c.JSON(200, gin.H{
+				"ok": false,
+			})
+		}
+		c.JSON(200, gin.H{
+			"ok": true,
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"ok": false,
+	})
 }
