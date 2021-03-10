@@ -54,7 +54,6 @@ func Init() {
 	Router.Use(middlewares.AccessLogger())
 
 	Router.Delims("[[", "]]")
-
 	Router.LoadHTMLGlob("./web/template/*.html")
 	Router.Static("/static", "./web/static/")
 

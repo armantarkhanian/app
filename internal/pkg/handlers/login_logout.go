@@ -10,6 +10,7 @@ import (
 func login(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Set("userID", "admin")
+	session.Set("cookieID", 15)
 	if err := session.Save(); err != nil {
 		log.Println("[ERROR]", err)
 		c.JSON(200, gin.H{"ok": false})

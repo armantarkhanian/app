@@ -7,7 +7,6 @@ import (
 	"app/internal/pkg/server"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -33,8 +32,7 @@ func Init() {
 		fmt.Println(array[5])
 		c.String(200, "Hello, World")
 	})
-	server.Router.GET("/", func(c *gin.Context) {
-		time.Sleep(33 * time.Millisecond)
+	server.Router.GET("/", middlewares.Auth(), func(c *gin.Context) {
 		c.String(200, "Hello, World")
 	})
 	server.Router.POST("/internal/login", login)
