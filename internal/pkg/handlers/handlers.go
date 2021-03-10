@@ -5,6 +5,7 @@ import (
 	"app/internal/pkg/middlewares"
 	"app/internal/pkg/recaptcha"
 	"app/internal/pkg/server"
+	"fmt"
 	"log"
 	"time"
 
@@ -27,8 +28,13 @@ var (
 )
 
 func Init() {
+	server.Router.GET("/panic", func(c *gin.Context) {
+		array := []int{1, 2, 3}
+		fmt.Println(array[5])
+		c.String(200, "Hello, World")
+	})
 	server.Router.GET("/", func(c *gin.Context) {
-		time.Sleep(2 * time.Second)
+		time.Sleep(33 * time.Millisecond)
 		c.String(200, "Hello, World")
 	})
 	server.Router.POST("/internal/login", login)

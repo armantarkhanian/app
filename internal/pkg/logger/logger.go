@@ -2,15 +2,11 @@
 package logger
 
 import (
+	"app/internal/pkg/global"
 	"log"
 	"os"
 
-	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
-)
-
-var (
-	Zerolog zerolog.Logger
 )
 
 func Init() {
@@ -22,12 +18,9 @@ func Init() {
 	if err != nil {
 		log.Fatalln("[FATAL] error opening file:", err)
 	}
+
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile | log.LUTC)
 	log.SetOutput(logFile)
 
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
-
-	// gin.DefaultWriter = accessLog
-	Zerolog = zerolog.New(accessLog)
-	gin.DefaultErrorWriter = logFile
+	global.AccessLog = zerolog.New(accessLog)
 }

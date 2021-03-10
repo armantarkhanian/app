@@ -21,6 +21,7 @@
             "idle": "15s",
             "shutdown": "15s"
         },
+        "consoleLog": true,
         "accessLoggerTimeLayout": "02 Jan 2006 15:04:05 MST",
         "queriesPerMinuteForCaptcha": 15
     }

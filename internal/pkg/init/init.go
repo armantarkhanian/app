@@ -3,6 +3,7 @@ package init
 
 import (
 	"app/internal/pkg/configs"
+	"app/internal/pkg/global"
 	"app/internal/pkg/handlers"
 	"app/internal/pkg/logger"
 	"app/internal/pkg/server"
@@ -15,4 +16,5 @@ func init() {
 	sessions.Init()
 	server.Init()
 	handlers.Init()
+	global.BackendID = 1
 }

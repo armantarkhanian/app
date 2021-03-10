@@ -4,8 +4,9 @@ package middlewares
 import (
 	"app/internal/pkg/configs"
 	"app/internal/pkg/geoip"
-	"app/internal/pkg/logger"
+	"app/internal/pkg/global"
 	internalSessions "app/internal/pkg/sessions"
+	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -28,9 +29,10 @@ func GeoIP() gin.HandlerFunc {
 func Recovery() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
-			if err := recover(); err != nil {
+			if r := recover(); r != nil {
 				array := strings.Split(c.HandlerName(), "/")
-				log.Println("[PANIC]", array[len(array)-1], err)
+				handler := fmt.Sprintf("in Handler: %q", array[len(array)-1])
+				log.Println("[PANIC]", r, handler)
 				c.HTML(200, "panic.html", nil)
 				c.Abort()
 			}
@@ -55,9 +57,7 @@ func AccessLogger() gin.HandlerFunc {
 		if raw != "" {
 			path = path + "?" + raw
 		}
-		if latency > time.Minute {
-			latency = latency - latency%time.Second
-		}
+
 		v, _ := c.Get("countryCode")
 		countryCode := v.(string)
 
@@ -66,14 +66,15 @@ func AccessLogger() gin.HandlerFunc {
 			log.Println("[ERROR]", errs)
 		}
 
-		logger.Zerolog.Log().
+		global.AccessLog.Log().
 			Int64("time", timeStamp.Unix()).
+			Int("backendID", global.BackendID).
 			Str("countryCode", countryCode).
 			Str("ip", c.ClientIP()).
 			Str("userID", userID).
 			Str("userAgent", c.Request.UserAgent()).
 			Int64("latency", latency.Milliseconds()).
-			Int("status", c.Writer.Status()).
+			Int("statusCode", c.Writer.Status()).
 			Str("method", c.Request.Method).
 			Str("path", path).
 			Int64("requestBodySize", c.Request.ContentLength).

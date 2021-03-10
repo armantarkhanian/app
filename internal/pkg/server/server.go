@@ -5,6 +5,7 @@ import (
 	"app/internal/pkg/configs"
 	"app/internal/pkg/middlewares"
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -69,7 +70,7 @@ func Init() {
 func Run() {
 
 	go func() {
-		log.Println("[INFO] running server on", configs.Store.Gin.Addr)
+		log.Println(fmt.Sprintf("[INFO] running server on port %q", configs.Store.Gin.Addr))
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalln("[FATAL]", err)
 		}
