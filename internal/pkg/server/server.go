@@ -48,9 +48,9 @@ func Init() {
 
 	Router = gin.New()
 	Router.Use(middlewares.Recovery())
-	Router.Use(middlewares.AccessLogger())
 	Router.Use(middlewares.GeoIP())
 	Router.Use(middlewares.Sessions())
+	Router.Use(middlewares.AccessLogger())
 
 	Router.Delims("[[", "]]")
 

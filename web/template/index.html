@@ -20,7 +20,8 @@
          }
         </style>
     </head>
-    <body>
+    <body>        
+        [[ template "noscript.html" ]]
         [[ template "captcha_block.html" ]]
         <div id="app">
             <button v-on:click="loadUsers" id="button">Load</button>

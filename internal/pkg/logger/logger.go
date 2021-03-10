@@ -6,6 +6,11 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog"
+)
+
+var (
+	Zerolog zerolog.Logger
 )
 
 func Init() {
@@ -20,6 +25,9 @@ func Init() {
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile | log.LUTC)
 	log.SetOutput(logFile)
 
-	gin.DefaultWriter = accessLog
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+
+	// gin.DefaultWriter = accessLog
+	Zerolog = zerolog.New(accessLog)
 	gin.DefaultErrorWriter = logFile
 }

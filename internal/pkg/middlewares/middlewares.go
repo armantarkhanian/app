@@ -4,8 +4,8 @@ package middlewares
 import (
 	"app/internal/pkg/configs"
 	"app/internal/pkg/geoip"
+	"app/internal/pkg/logger"
 	internalSessions "app/internal/pkg/sessions"
-	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -40,27 +40,47 @@ func Recovery() gin.HandlerFunc {
 }
 
 func AccessLogger() gin.HandlerFunc {
-	return gin.LoggerWithConfig(gin.LoggerConfig{
-		Formatter: func(param gin.LogFormatterParams) string {
-			if param.Latency > time.Minute {
-				param.Latency = param.Latency - param.Latency%time.Second
-			}
+	return func(c *gin.Context) {
+		session := sessions.Default(c)
+		userID, _ := session.Get("userID").(string)
+		start := time.Now().UTC()
+		path := c.Request.URL.Path
+		raw := c.Request.URL.RawQuery
 
-			if param.ErrorMessage != "" {
-				param.ErrorMessage = fmt.Sprintf(`| %s",`, param.ErrorMessage)
-			}
+		c.Next()
 
-			return fmt.Sprintf(`%v | %15s | %13v | %3d | %-9s | %s %s`,
-				param.TimeStamp.Format("02 Jan 2006 15:04:05 MST"),
-				param.ClientIP,
-				param.Latency,
-				param.StatusCode,
-				"["+param.Method+"]",
-				param.Path,
-				param.ErrorMessage,
-			) + "\n"
-		},
-	})
+		timeStamp := time.Now().UTC()
+		latency := timeStamp.Sub(start)
+
+		if raw != "" {
+			path = path + "?" + raw
+		}
+		if latency > time.Minute {
+			latency = latency - latency%time.Second
+		}
+		v, _ := c.Get("countryCode")
+		countryCode := v.(string)
+
+		errs := c.Errors.ByType(gin.ErrorTypePrivate).String()
+		if errs != "" {
+			log.Println("[ERROR]", errs)
+		}
+
+		logger.Zerolog.Log().
+			Int64("time", timeStamp.Unix()).
+			Str("countryCode", countryCode).
+			Str("ip", c.ClientIP()).
+			Str("userID", userID).
+			Str("userAgent", c.Request.UserAgent()).
+			Int64("latency", latency.Milliseconds()).
+			Int("status", c.Writer.Status()).
+			Str("method", c.Request.Method).
+			Str("path", path).
+			Int64("requestBodySize", c.Request.ContentLength).
+			Int("responseBodySize", c.Writer.Size()).
+			Str("errors", errs).
+			Msg("")
+	}
 }
 
 func RecaptchaProtected() gin.HandlerFunc {

@@ -66,6 +66,7 @@ type ginConfig struct {
 	Addr                       string   `json:"addr" validate:"required"`
 	Timeouts                   timeouts `json:"timeouts" validate:"required"`
 	Mode                       string   `json:"mode" validate:"required,oneof=test debug release"`
+	AccessLoggerTimeLayout     string   `json:"accessLoggerTimeLayout"`
 	QueriesPerMinuteForCaptcha int      `json:"queriesPerMinuteForCaptcha"`
 }
 

@@ -6,6 +6,7 @@ import (
 	"app/internal/pkg/recaptcha"
 	"app/internal/pkg/server"
 	"log"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,6 +27,10 @@ var (
 )
 
 func Init() {
+	server.Router.GET("/", func(c *gin.Context) {
+		time.Sleep(2 * time.Second)
+		c.String(200, "Hello, World")
+	})
 	server.Router.POST("/internal/login", login)
 	server.Router.POST("/internal/logout", logout)
 
