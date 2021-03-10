@@ -40,7 +40,7 @@ func Init() {
 	server.Router.POST("/internal/login", login)
 	server.Router.POST("/internal/logout", logout)
 
-	server.Router.POST("/internal/api/:m/:v", middlewares.Auth(), middlewares.RecaptchaProtected(), func(c *gin.Context) {
+	server.Router.POST("/internal/api/:m/:v", middlewares.Auth(), middlewares.RecaptchaProtect(), func(c *gin.Context) {
 		method := c.Param("m")
 		version := c.Param("v")
 		var request apiRequest

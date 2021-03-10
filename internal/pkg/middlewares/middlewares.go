@@ -84,7 +84,7 @@ func AccessLogger() gin.HandlerFunc {
 	}
 }
 
-func RecaptchaProtected() gin.HandlerFunc {
+func RecaptchaProtect() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if configs.Store.Gin.QueriesPerMinuteForCaptcha <= 0 {
 			c.Next()
