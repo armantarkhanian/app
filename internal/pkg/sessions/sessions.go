@@ -11,7 +11,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var store cookie.Store
+var (
+	store cookie.Store
+)
 
 func Init() {
 	gob.Register(time.Time{})

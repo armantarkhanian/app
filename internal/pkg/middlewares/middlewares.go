@@ -5,6 +5,7 @@ import (
 	"app/internal/pkg/configs"
 	"app/internal/pkg/geoip"
 	"app/internal/pkg/global"
+	"app/internal/pkg/keys"
 	internalSessions "app/internal/pkg/sessions"
 	"fmt"
 	"log"
@@ -91,19 +92,19 @@ func RecaptchaProtect() gin.HandlerFunc {
 			return
 		}
 		session := sessions.Default(c)
-		needCaptcha, _ := session.Get("needCaptcha").(bool)
+		needCaptcha, _ := session.Get(keys.NeedCaptcha).(bool)
 		if needCaptcha {
 			c.IndentedJSON(200, gin.H{
-				"needCaptcha": true,
+				keys.NeedCaptcha: true,
 			})
 			c.Abort()
 			return
 		}
-		lastActionTime, _ := session.Get("lastActionTime").(time.Time)
-		qps, _ := session.Get("qps").(int)
+		lastMinute, _ := session.Get(keys.LastActionMinute).(time.Time)
+		qps, _ := session.Get(keys.QueriesCounter).(int)
 
-		if lastActionTime.IsZero() {
-			session.Set("lastActionTime", time.Now().UTC())
+		if lastMinute.IsZero() {
+			session.Set(keys.LastActionMinute, time.Now().UTC())
 			if err := session.Save(); err != nil {
 				log.Println("[ERROR]", err)
 			}
@@ -111,20 +112,20 @@ func RecaptchaProtect() gin.HandlerFunc {
 			return
 		}
 
-		ts := time.Now().UTC().Sub(lastActionTime).Milliseconds()
+		ts := time.Now().UTC().Sub(lastMinute).Milliseconds()
 		if ts <= 60000 {
 			qps++
 			if qps >= configs.Store.Gin.QueriesPerMinuteForCaptcha {
-				session.Set("needCaptcha", true)
+				session.Set(keys.NeedCaptcha, true)
 				if err := session.Save(); err != nil {
 					log.Println("[ERROR]", err)
 				}
 				c.IndentedJSON(200, gin.H{
-					"needCaptcha": true,
+					keys.NeedCaptcha: true,
 				})
 				c.Abort()
 			} else {
-				session.Set("qps", qps)
+				session.Set(keys.QueriesCounter, qps)
 				if err := session.Save(); err != nil {
 					log.Println("[ERROR]", err)
 				}
@@ -132,8 +133,8 @@ func RecaptchaProtect() gin.HandlerFunc {
 			return
 		}
 
-		session.Set("lastActionTime", time.Now().UTC())
-		session.Set("qps", 0)
+		session.Set(keys.LastActionMinute, time.Now().UTC())
+		session.Set(keys.QueriesCounter, 1)
 		if err := session.Save(); err != nil {
 			log.Println("[ERROR]", err)
 		}
@@ -144,8 +145,9 @@ func RecaptchaProtect() gin.HandlerFunc {
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		userID, _ := session.Get("userID").(string)
-		if userID == "" {
+		sessionID, _ := session.Get(keys.SessionID).(string)
+		userID, _ := session.Get(keys.UserID).(string)
+		if userID == "" || sessionID == "" {
 			c.JSON(200, gin.H{"error": "unauthorized"})
 			c.Abort()
 			return
