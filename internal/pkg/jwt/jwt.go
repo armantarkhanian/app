@@ -41,8 +41,7 @@ func init() {
 		},
 		Authorizator: func(data interface{}, c *gin.Context) bool {
 			if v, ok := data.(*payload); ok {
-				// check is v.SessionID is invalid
-				return v.SessionID == "123"
+				return v.SessionID == "1234"
 			}
 			return false
 		},
