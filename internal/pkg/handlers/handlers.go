@@ -2,7 +2,6 @@
 package handlers
 
 import (
-	"app/internal/pkg/middlewares"
 	"app/internal/pkg/recaptcha"
 	"app/internal/pkg/server"
 	"fmt"
@@ -32,13 +31,11 @@ func Init() {
 		fmt.Println(array[5])
 		c.String(200, "Hello, World")
 	})
-	server.Router.GET("/", middlewares.Auth(), func(c *gin.Context) {
+	server.Router.GET("/", func(c *gin.Context) {
 		c.String(200, "Hello, World")
 	})
-	server.Router.POST("/internal/login", login)
-	server.Router.POST("/internal/logout", logout)
 
-	server.Router.POST("/internal/api/:m/:v", middlewares.Auth(), func(c *gin.Context) {
+	server.Router.POST("/internal/api/:m/:v", func(c *gin.Context) {
 		method := c.Param("m")
 		version := c.Param("v")
 		var request apiRequest

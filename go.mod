@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/IncSW/geoip2 v0.1.0
+	github.com/appleboy/gin-jwt/v2 v2.6.4
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/gin-contrib/sessions v0.0.3
 	github.com/gin-contrib/zap v0.0.1

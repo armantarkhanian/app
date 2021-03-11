@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
@@ -43,8 +44,9 @@ func Recovery() gin.HandlerFunc {
 
 func AccessLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		userID, _ := session.Get(keys.UserID).(string)
+		claims := jwt.ExtractClaims(c)
+		userID, _ := claims["userID"].(string)
+
 		start := time.Now().UTC()
 		path := c.Request.URL.Path
 		raw := c.Request.URL.RawQuery
