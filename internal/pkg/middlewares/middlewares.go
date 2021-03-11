@@ -4,6 +4,7 @@ package middlewares
 import (
 	"app/internal/pkg/geoip"
 	"app/internal/pkg/global"
+	internalJWT "app/internal/pkg/jwt"
 	"app/internal/pkg/keys"
 	internalSessions "app/internal/pkg/sessions"
 	"fmt"
@@ -11,13 +12,15 @@ import (
 	"strings"
 	"time"
 
-	jwt "github.com/appleboy/gin-jwt/v2"
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
 func Sessions() gin.HandlerFunc {
 	return internalSessions.Middleware()
+}
+
+func JWT() gin.HandlerFunc {
+	return internalJWT.AuthMiddleware.MiddlewareFunc()
 }
 
 func GeoIP() gin.HandlerFunc {
@@ -44,8 +47,7 @@ func Recovery() gin.HandlerFunc {
 
 func AccessLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		claims := jwt.ExtractClaims(c)
-		userID, _ := claims["userID"].(string)
+		userID, _ := internalJWT.GetPayload(c)
 
 		start := time.Now().UTC()
 		path := c.Request.URL.Path
@@ -83,19 +85,5 @@ func AccessLogger() gin.HandlerFunc {
 			Int("responseBodySize", c.Writer.Size()).
 			Str("errors", errs).
 			Msg("")
-	}
-}
-
-func Auth() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		sessionID, _ := session.Get(keys.SessionID).(string)
-		userID, _ := session.Get(keys.UserID).(string)
-		if userID == "" || sessionID == "" {
-			c.JSON(200, gin.H{"error": "unauthorized"})
-			c.Abort()
-			return
-		}
-		c.Next()
 	}
 }

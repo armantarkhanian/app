@@ -3,7 +3,6 @@ package server
 
 import (
 	"app/internal/pkg/configs"
-	"app/internal/pkg/jwt"
 	"app/internal/pkg/middlewares"
 	"context"
 	"fmt"
@@ -49,12 +48,18 @@ func Init() {
 	}
 
 	Router = gin.New()
-	Router.Use(middlewares.Recovery())
-	Router.Use(middlewares.GeoIP())
 
-	Router.GET("/login", jwt.AuthMiddleware.LoginHandler)
-	Router.Use(jwt.AuthMiddleware.MiddlewareFunc())
-	Router.Use(middlewares.AccessLogger())
+	Router.Use(middlewares.Recovery())
+
+	if configs.Store.Gin.Middlewares.GeoIP {
+		Router.Use(middlewares.GeoIP())
+	}
+	if configs.Store.Gin.Middlewares.AccessLogger {
+		Router.Use(middlewares.AccessLogger())
+	}
+	if configs.Store.Gin.Middlewares.Sessions {
+		Router.Use(middlewares.Sessions())
+	}
 
 	Router.Delims("[[", "]]")
 	Router.LoadHTMLGlob("./web/template/*.html")

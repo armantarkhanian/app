@@ -2,6 +2,8 @@
 package handlers
 
 import (
+	"app/internal/pkg/jwt"
+	"app/internal/pkg/middlewares"
 	"app/internal/pkg/recaptcha"
 	"app/internal/pkg/server"
 	"fmt"
@@ -31,11 +33,17 @@ func Init() {
 		fmt.Println(array[5])
 		c.String(200, "Hello, World")
 	})
-	server.Router.GET("/", func(c *gin.Context) {
-		c.String(200, "Hello, World")
+	server.Router.GET("/", middlewares.JWT(), func(c *gin.Context) {
+		userID, tokenID := jwt.GetPayload(c)
+		c.JSON(200, gin.H{
+			"userID":  userID,
+			"tokenID": tokenID,
+		})
 	})
 
-	server.Router.POST("/internal/api/:m/:v", func(c *gin.Context) {
+	server.Router.GET("/login", jwt.LoginHandler())
+
+	server.Router.POST("/internal/api/:m/:v", middlewares.JWT(), func(c *gin.Context) {
 		method := c.Param("m")
 		version := c.Param("v")
 		var request apiRequest

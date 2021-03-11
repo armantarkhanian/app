@@ -2,20 +2,33 @@
 package jwt
 
 import (
+	"app/internal/pkg/keys"
 	"net/http"
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 var (
 	AuthMiddleware *jwt.GinJWTMiddleware
 )
 
+func LoginHandler() gin.HandlerFunc {
+	return AuthMiddleware.LoginHandler
+}
+
+func GetPayload(c *gin.Context) (userID string, tokenID string) {
+	claims := jwt.ExtractClaims(c)
+	userID, _ = claims[keys.UserID].(string)
+	tokenID, _ = claims[keys.TokenID].(string)
+	return userID, tokenID
+}
+
 type payload struct {
-	UserID    string
-	SessionID string
+	UserID  string `json:"userID"`
+	TokenID string `json:"tokenID"`
 }
 
 func init() {
@@ -27,29 +40,27 @@ func init() {
 		PayloadFunc: func(data interface{}) jwt.MapClaims {
 			if v, ok := data.(*payload); ok {
 				return jwt.MapClaims{
-					"userID":    v.UserID,
-					"sessionID": v.SessionID,
+					keys.UserID:  v.UserID,
+					keys.TokenID: v.TokenID,
 				}
 			}
 			return jwt.MapClaims{}
 		},
 		Authenticator: func(c *gin.Context) (interface{}, error) {
 			return &payload{
-				UserID:    "arman",
-				SessionID: "1234",
+				UserID:  "arman",
+				TokenID: uuid.New().String(),
 			}, nil
 		},
 		Authorizator: func(data interface{}, c *gin.Context) bool {
-			if v, ok := data.(*payload); ok {
-				return v.SessionID == "1234"
-			}
-			return false
+			// here check if tokenID is invalid
+			return true
 		},
 		IdentityHandler: func(c *gin.Context) interface{} {
 			claims := jwt.ExtractClaims(c)
 			return &payload{
-				UserID:    claims["userID"].(string),
-				SessionID: claims["sessionID"].(string),
+				UserID:  claims[keys.UserID].(string),
+				TokenID: claims[keys.TokenID].(string),
 			}
 		},
 		LoginResponse: func(c *gin.Context, code int, token string, expire time.Time) {

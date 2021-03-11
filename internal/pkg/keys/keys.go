@@ -3,6 +3,7 @@ package keys
 
 var (
 	SessionID        = "sessionID"
+	TokenID          = "tokenID"
 	UserID           = "userID"
 	Username         = "username"
 	LastActionMinute = "lastActionMinute"

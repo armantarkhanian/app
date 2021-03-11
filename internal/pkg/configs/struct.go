@@ -63,12 +63,21 @@ type sessionsConfig struct {
 }
 
 type ginConfig struct {
-	Addr                       string   `json:"addr" validate:"required"`
-	Timeouts                   timeouts `json:"timeouts" validate:"required"`
-	Mode                       string   `json:"mode" validate:"required,oneof=test debug release"`
-	ConsoleLog                 bool     `json:"consoleLog"`
-	AccessLoggerTimeLayout     string   `json:"accessLoggerTimeLayout"`
-	QueriesPerMinuteForCaptcha int      `json:"queriesPerMinuteForCaptcha"`
+	Addr                       string      `json:"addr" validate:"required"`
+	Timeouts                   timeouts    `json:"timeouts" validate:"required"`
+	Middlewares                middlewares `json:"middlewares"`
+	Mode                       string      `json:"mode" validate:"required,oneof=test debug release"`
+	ConsoleLog                 bool        `json:"consoleLog"`
+	AccessLoggerTimeLayout     string      `json:"accessLoggerTimeLayout"`
+	QueriesPerMinuteForCaptcha int         `json:"queriesPerMinuteForCaptcha"`
+}
+
+type middlewares struct {
+	Recovery     bool `json:"recovery"`
+	AccessLogger bool `json:"accessLogger"`
+	JWT          bool `json:"jwt"`
+	GeoIP        bool `json:"geoip"`
+	Sessions     bool `json:"sessions"`
 }
 
 type timeouts struct {
