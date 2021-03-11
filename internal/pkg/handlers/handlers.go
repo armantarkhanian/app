@@ -33,7 +33,7 @@ func Init() {
 		fmt.Println(array[5])
 		c.String(200, "Hello, World")
 	})
-	server.Router.GET("/", middlewares.JWT(), func(c *gin.Context) {
+	server.Router.GET("/", middlewares.Auth(), func(c *gin.Context) {
 		userID, tokenID := jwt.GetPayload(c)
 		c.JSON(200, gin.H{
 			"userID":  userID,
@@ -43,7 +43,7 @@ func Init() {
 
 	server.Router.GET("/login", jwt.LoginHandler())
 
-	server.Router.POST("/internal/api/:m/:v", middlewares.JWT(), func(c *gin.Context) {
+	server.Router.POST("/internal/api/:m/:v", middlewares.Auth(), func(c *gin.Context) {
 		method := c.Param("m")
 		version := c.Param("v")
 		var request apiRequest

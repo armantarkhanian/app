@@ -19,7 +19,7 @@ func Sessions() gin.HandlerFunc {
 	return internalSessions.Middleware()
 }
 
-func JWT() gin.HandlerFunc {
+func Auth() gin.HandlerFunc {
 	return internalJWT.AuthMiddleware.MiddlewareFunc()
 }
 
