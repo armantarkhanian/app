@@ -2,6 +2,7 @@
 package geoip
 
 import (
+	"log"
 	"net"
 
 	"github.com/IncSW/geoip2"
@@ -22,6 +23,7 @@ func init() {
 func CountryCodeByIP(ip string) string {
 	record, err := reader.Lookup(net.ParseIP(ip))
 	if err != nil {
+		log.Println("[ERROR]", err)
 		return ""
 	}
 	return record.Country.ISOCode

@@ -2,7 +2,6 @@
 package middlewares
 
 import (
-	"app/internal/pkg/configs"
 	"app/internal/pkg/geoip"
 	"app/internal/pkg/global"
 	"app/internal/pkg/keys"
@@ -22,7 +21,7 @@ func Sessions() gin.HandlerFunc {
 
 func GeoIP() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Set("countryCode", geoip.CountryCodeByIP(c.ClientIP()))
+		c.Set(keys.CountryCode, geoip.CountryCodeByIP(c.ClientIP()))
 		c.Next()
 	}
 }
@@ -45,7 +44,7 @@ func Recovery() gin.HandlerFunc {
 func AccessLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		userID, _ := session.Get("userID").(string)
+		userID, _ := session.Get(keys.UserID).(string)
 		start := time.Now().UTC()
 		path := c.Request.URL.Path
 		raw := c.Request.URL.RawQuery
@@ -59,7 +58,7 @@ func AccessLogger() gin.HandlerFunc {
 			path = path + "?" + raw
 		}
 
-		v, _ := c.Get("countryCode")
+		v, _ := c.Get(keys.CountryCode)
 		countryCode := v.(string)
 
 		errs := c.Errors.ByType(gin.ErrorTypePrivate).String()
@@ -82,63 +81,6 @@ func AccessLogger() gin.HandlerFunc {
 			Int("responseBodySize", c.Writer.Size()).
 			Str("errors", errs).
 			Msg("")
-	}
-}
-
-func RecaptchaProtect() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		if configs.Store.Gin.QueriesPerMinuteForCaptcha <= 0 {
-			c.Next()
-			return
-		}
-		session := sessions.Default(c)
-		needCaptcha, _ := session.Get(keys.NeedCaptcha).(bool)
-		if needCaptcha {
-			c.IndentedJSON(200, gin.H{
-				keys.NeedCaptcha: true,
-			})
-			c.Abort()
-			return
-		}
-		lastMinute, _ := session.Get(keys.LastActionMinute).(time.Time)
-		qps, _ := session.Get(keys.QueriesCounter).(int)
-
-		if lastMinute.IsZero() {
-			session.Set(keys.LastActionMinute, time.Now().UTC())
-			if err := session.Save(); err != nil {
-				log.Println("[ERROR]", err)
-			}
-			c.Next()
-			return
-		}
-
-		ts := time.Now().UTC().Sub(lastMinute).Milliseconds()
-		if ts <= 60000 {
-			qps++
-			if qps >= configs.Store.Gin.QueriesPerMinuteForCaptcha {
-				session.Set(keys.NeedCaptcha, true)
-				if err := session.Save(); err != nil {
-					log.Println("[ERROR]", err)
-				}
-				c.IndentedJSON(200, gin.H{
-					keys.NeedCaptcha: true,
-				})
-				c.Abort()
-			} else {
-				session.Set(keys.QueriesCounter, qps)
-				if err := session.Save(); err != nil {
-					log.Println("[ERROR]", err)
-				}
-			}
-			return
-		}
-
-		session.Set(keys.LastActionMinute, time.Now().UTC())
-		session.Set(keys.QueriesCounter, 1)
-		if err := session.Save(); err != nil {
-			log.Println("[ERROR]", err)
-		}
-		c.Next()
 	}
 }
 

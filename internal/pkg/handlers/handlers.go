@@ -2,14 +2,12 @@
 package handlers
 
 import (
-	"app/internal/pkg/keys"
 	"app/internal/pkg/middlewares"
 	"app/internal/pkg/recaptcha"
 	"app/internal/pkg/server"
 	"fmt"
 	"log"
 
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,12 +32,7 @@ func Init() {
 		fmt.Println(array[5])
 		c.String(200, "Hello, World")
 	})
-	server.Router.GET("/", middlewares.Auth(), middlewares.RecaptchaProtect(), func(c *gin.Context) {
-		session := sessions.Default(c)
-		userID, _ := session.Get(keys.UserID).(string)
-		sessionID, _ := session.Get(keys.SessionID).(string)
-		username, _ := session.Get(keys.Username).(string)
-		fmt.Println(sessionID, userID, username)
+	server.Router.GET("/", middlewares.Auth(), func(c *gin.Context) {
 		c.String(200, "Hello, World")
 	})
 	server.Router.POST("/internal/login", login)
