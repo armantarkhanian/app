@@ -36,11 +36,8 @@ type payload struct {
 func init() {
 	var err error
 	AuthMiddleware, err = jwt.New(&jwt.GinJWTMiddleware{
-		Realm:            "test zone",
-		SigningAlgorithm: "RS256",
-		PubKeyFile:       "./public.pem",
-		PrivKeyFile:      "./private.pem",
-		Timeout:          time.Hour * 24 * 90,
+		Key:     []byte("945192e8f34a44b2af60265df7860e79898ec86108cc4b52a83bbc19498001ad"),
+		Timeout: time.Hour * 24 * 90,
 		PayloadFunc: func(data interface{}) jwt.MapClaims {
 			if v, ok := data.(*payload); ok {
 				return jwt.MapClaims{
@@ -108,11 +105,4 @@ func init() {
 	if err != nil {
 		panic("JWT Error:" + err.Error())
 	}
-
-	errInit := AuthMiddleware.MiddlewareInit()
-
-	if errInit != nil {
-		panic("authMiddleware.MiddlewareInit() Error:" + errInit.Error())
-	}
-
 }
