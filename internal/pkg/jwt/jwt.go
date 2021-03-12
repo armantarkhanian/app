@@ -2,15 +2,15 @@
 package jwt
 
 import (
-	"app/internal/pkg/keys"
-	"fmt"
+	"app/internal/pkg/redis"
+	"errors"
+	"log"
 	"net/http"
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 )
 
 var (
@@ -21,73 +21,65 @@ func LoginHandler() gin.HandlerFunc {
 	return AuthMiddleware.LoginHandler
 }
 
-func GetPayload(c *gin.Context) (userID string, tokenID string) {
+func GetPayload(c *gin.Context) (userID string, sessionID string) {
 	claims := jwt.ExtractClaims(c)
-	userID, _ = claims[keys.UserID].(string)
-	tokenID, _ = claims[keys.TokenID].(string)
-	return userID, tokenID
+	userID, _ = claims["sub"].(string)
+	sessionID, _ = claims["sessionID"].(string)
+	return userID, sessionID
 }
 
 type payload struct {
-	UserID  string `json:"userID"`
-	TokenID string `json:"tokenID"`
-	Hash    string `json:"hash"`
-}
-
-func hash(str string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(str), bcrypt.MinCost)
-	return string(bytes), err
-}
-
-func checkHash(str, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(str))
-	return err == nil
+	UserID    string `json:"userID"`
+	SessionID string `json:"sessionID"`
 }
 
 func init() {
 	var err error
 	AuthMiddleware, err = jwt.New(&jwt.GinJWTMiddleware{
 		Realm:            "test zone",
-		SigningAlgorithm: "HS256",
-		Key:              []byte("4aceccc4ae3d43e28e7788c6165105e0"),
+		SigningAlgorithm: "RS256",
+		PubKeyFile:       "./public.pem",
+		PrivKeyFile:      "./private.pem",
 		Timeout:          time.Hour * 24 * 90,
 		PayloadFunc: func(data interface{}) jwt.MapClaims {
 			if v, ok := data.(*payload); ok {
 				return jwt.MapClaims{
-					keys.UserID:  v.UserID,
-					keys.TokenID: v.TokenID,
-					"hash":       v.Hash,
+					"sub":       v.UserID,
+					"sessionID": v.SessionID,
 				}
 			}
 			return jwt.MapClaims{}
 		},
 		Authenticator: func(c *gin.Context) (interface{}, error) {
-			hs, err := hash(c.ClientIP() + c.Request.UserAgent())
-			if err != nil {
-				panic(err)
+			userID := "arman"
+			sessionID := uuid.New().String()
+
+			if err := redis.Client.SAdd(redis.Ctx, "u:"+userID+":s", sessionID).Err(); err != nil {
+				log.Println("[ERROR] [redis]", err)
+				return nil, errors.New("database error")
 			}
+
 			return &payload{
-				UserID:  "arman",
-				TokenID: uuid.New().String(),
-				Hash:    hs,
+				UserID:    userID,
+				SessionID: sessionID,
 			}, nil
 		},
 		Authorizator: func(data interface{}, c *gin.Context) bool {
 			if v, ok := data.(*payload); ok {
-				if !checkHash(c.ClientIP()+c.Request.UserAgent(), v.Hash) {
-					fmt.Println("Invalid hash") // send message to user about it
+				cmd := redis.Client.SIsMember(redis.Ctx, "u:"+v.UserID+":s", v.SessionID)
+				if cmd.Err() != nil {
+					log.Println("[ERROR] [redis]", cmd.Err())
 				}
-				return true
+				return cmd.Val()
 			}
 			return false
 		},
 		IdentityHandler: func(c *gin.Context) interface{} {
 			claims := jwt.ExtractClaims(c)
-			return &payload{
-				UserID:  claims[keys.UserID].(string),
-				TokenID: claims[keys.TokenID].(string),
-				Hash:    claims["hash"].(string),
-			}
+			var data payload
+			data.UserID, _ = claims["sub"].(string)
+			data.SessionID, _ = claims["sessionID"].(string)
+			return &data
 		},
 		LoginResponse: func(c *gin.Context, code int, token string, expire time.Time) {
 			c.JSON(code, gin.H{

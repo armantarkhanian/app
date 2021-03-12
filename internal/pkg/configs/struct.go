@@ -12,6 +12,12 @@ type Configs struct {
 	Notify   notify         `json:"notify"`
 	Sessions sessionsConfig `json:"sessions"`
 	Gin      ginConfig      `json:"gin"`
+	Redis    redisConfig    `json:"redis"`
+}
+
+type redisConfig struct {
+	Mode string   `json:"mode"`
+	Addr []string `json:"addr"`
 }
 
 type notify struct {

@@ -29,5 +29,11 @@
         "consoleLog": true,
         "accessLoggerTimeLayout": "02 Jan 2006 15:04:05 MST",
         "queriesPerMinuteForCaptcha": 15
+    },
+    "redis": {
+        "mode": "standalone",
+        "addr": [
+            "localhost:6379"
+        ]
     }
 }

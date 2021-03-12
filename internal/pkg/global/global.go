@@ -4,6 +4,6 @@ package global
 import "github.com/rs/zerolog"
 
 var (
-	BackendID int
+	BackendID = 1
 	AccessLog zerolog.Logger
 )

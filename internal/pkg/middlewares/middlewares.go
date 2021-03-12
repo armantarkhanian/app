@@ -62,8 +62,11 @@ func AccessLogger() gin.HandlerFunc {
 			path = path + "?" + raw
 		}
 
+		var countryCode string
 		v, _ := c.Get(keys.CountryCode)
-		countryCode := v.(string)
+		if v != nil {
+			countryCode, _ = v.(string)
+		}
 
 		errs := c.Errors.ByType(gin.ErrorTypePrivate).String()
 		if errs != "" {

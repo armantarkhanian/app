@@ -16,14 +16,16 @@ func init() {
 	var err error
 	reader, err = geoip2.NewCityReaderFromFile("/usr/share/GeoIP/GeoLite2-City.mmdb")
 	if err != nil {
-		panic(err)
+		log.Println("[FATAL] [geoip]", err)
 	}
 }
 
 func CountryCodeByIP(ip string) string {
 	record, err := reader.Lookup(net.ParseIP(ip))
 	if err != nil {
-		log.Println("[ERROR]", err)
+		if err != geoip2.ErrNotFound {
+			log.Println("[ERROR] [geoip]", err)
+		}
 		return ""
 	}
 	return record.Country.ISOCode
