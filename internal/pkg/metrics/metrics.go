@@ -23,26 +23,25 @@ type metricStore struct {
 	Month     int                       `json:"month"`
 	Day       int                       `json:"day"`
 	Hour      int                       `json:"hour"`
-	Status    string                    `json:"status"`
 	Metrics   map[string]map[string]int `json:"metrics"`
 }
 
-func (store *metricStore) Incr(metricType, key string) {
-	store.Lock()
-	if store.Metrics == nil {
-		store.Metrics = make(map[string]map[string]int)
+func (metricStore *metricStore) incr(metricType, key string) {
+	metricStore.Lock()
+	if metricStore.Metrics == nil {
+		metricStore.Metrics = make(map[string]map[string]int)
 	}
-	if store.Metrics[metricType] == nil {
-		store.Metrics[metricType] = make(map[string]int)
+	if metricStore.Metrics[metricType] == nil {
+		metricStore.Metrics[metricType] = make(map[string]int)
 	}
-	store.Metrics[metricType][key]++
-	store.Unlock()
+	metricStore.Metrics[metricType][key]++
+	metricStore.Unlock()
 }
 
-func (metricStruct *metricStore) Get(metricType, key string) (value int) {
-	metricStruct.RLock()
-	value = metricStruct.Metrics[metricType][key]
-	metricStruct.RUnlock()
+func (metricStore *metricStore) get(metricType, key string) (value int) {
+	metricStore.RLock()
+	value = metricStore.Metrics[metricType][key]
+	metricStore.RUnlock()
 	return value
 }
 
@@ -58,12 +57,14 @@ func currentStore() *metricStore {
 	if lastHourKey == currentHourKey() {
 		return stores[lastHourKey]
 	}
-	stores[lastHourKey].Status = "completed"
 	if err := stores[lastHourKey].saveFile(); err != nil {
 		log.Println("[ERROR]", err)
 	}
+
 	delete(stores, lastHourKey)
+
 	initCurrentStore()
+
 	return stores[lastHourKey]
 }
 
@@ -103,9 +104,6 @@ func (store *metricStore) readFromFile() {
 	if err := json.Unmarshal(bytes, store); err != nil {
 		log.Println("[ERROR]", err)
 	}
-	if store.Status != "active" && store.Status != "completed" {
-		store.Status = "active"
-	}
 }
 
 func (store *metricStore) saveFile() error {
@@ -144,20 +142,21 @@ func initCurrentStore() {
 		Month:     month,
 		Day:       day,
 		Hour:      hour,
-		Status:    "active",
 	}
 
 	stores[lastHourKey].readFromFile()
 }
 
 func task() {
-	currentStore().saveFile()
+	if err := currentStore().saveFile(); err != nil {
+		log.Println("[ERROR]", err)
+	}
 }
 
 func Incr(metricType, key string) {
-	currentStore().Incr(metricType, key)
+	currentStore().incr(metricType, key)
 }
 
 func Get(metricType, key string) (value int) {
-	return currentStore().Get(metricType, key)
+	return currentStore().get(metricType, key)
 }

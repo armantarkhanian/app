@@ -104,19 +104,16 @@ func Metrics() gin.HandlerFunc {
 		if ua.OS == "" {
 			ua.OS = "others"
 		}
+		if c.Writer.Status() == 404 {
+			path = "Not Found"
+		}
 		metrics.Incr("handlers", path)
 		metrics.Incr("methods", c.Request.Method)
 		metrics.Incr("statusCodes", strconv.Itoa(c.Writer.Status()))
 		metrics.Incr("os", ua.OS)
 		metrics.Incr("browsers", ua.Name)
 
-		var ip string
-		if c.ClientIP() == "::1" {
-			ip = "79.141.162.81"
-		} else {
-			ip = "51.83.70.23"
-		}
-		countryCode := geoip.CountryCodeByIP(ip)
+		countryCode := geoip.CountryCodeByIP(c.ClientIP())
 		if countryCode == "" {
 			countryCode = "others"
 		}
