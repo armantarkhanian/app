@@ -50,6 +50,7 @@ func Init() {
 	Router = gin.New()
 
 	Router.Use(middlewares.Recovery())
+	Router.Use(middlewares.Metrics())
 
 	if configs.Store.Gin.Middlewares.GeoIP {
 		Router.Use(middlewares.GeoIP())

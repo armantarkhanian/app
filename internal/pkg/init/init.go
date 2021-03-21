@@ -3,6 +3,7 @@ package init
 
 import (
 	"app/internal/pkg/configs"
+	"app/internal/pkg/db"
 	"app/internal/pkg/handlers"
 	"app/internal/pkg/logger"
 	"app/internal/pkg/redis"
@@ -14,6 +15,7 @@ func init() {
 	configs.Init()
 	logger.Init()
 	sessions.Init()
+	db.Init()
 	redis.Init()
 	server.Init()
 	handlers.Init()

@@ -6,6 +6,7 @@ import (
 	"app/internal/pkg/global"
 	internalJWT "app/internal/pkg/jwt"
 	"app/internal/pkg/keys"
+	"app/internal/pkg/metrics"
 	internalSessions "app/internal/pkg/sessions"
 	"fmt"
 	"log"
@@ -13,6 +14,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	ua "github.com/mileusna/useragent"
 )
 
 func Sessions() gin.HandlerFunc {
@@ -88,5 +90,31 @@ func AccessLogger() gin.HandlerFunc {
 			Int("responseBodySize", c.Writer.Size()).
 			Str("errors", errs).
 			Msg("")
+	}
+}
+
+func Metrics() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Next()
+
+		path := c.Request.URL.Path
+
+		ua := ua.Parse(c.Request.UserAgent())
+
+		metrics.Incr("handlers", path)
+		metrics.Incr("os", ua.OS)
+		metrics.Incr("browsers", ua.Name)
+
+		var ip string
+		if c.ClientIP() == "::1" {
+			ip = "79.141.162.81"
+		} else {
+			ip = "51.83.70.23"
+		}
+		countryCode := geoip.CountryCodeByIP(ip)
+		if countryCode == "" {
+			countryCode = "others"
+		}
+		metrics.Incr("countries", countryCode)
 	}
 }

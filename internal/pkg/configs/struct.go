@@ -13,6 +13,15 @@ type Configs struct {
 	Sessions sessionsConfig `json:"sessions"`
 	Gin      ginConfig      `json:"gin"`
 	Redis    redisConfig    `json:"redis"`
+	MySQL    mysqlConfig    `json:"mysql"`
+}
+
+type mysqlConfig struct {
+	User     string   `json:"user"`
+	Password string   `json:"password"`
+	Database string   `json:"database"`
+	Master   string   `json:"master"`
+	Slaves   []string `json:"slaves"`
 }
 
 type redisConfig struct {
