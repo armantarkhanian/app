@@ -1,0 +1,35 @@
+{
+	"backendID": 1,
+	"backendIP": "127.0.0.1",
+	"year": 2021,
+	"month": 3,
+	"day": 21,
+	"hour": 12,
+	"status": "completed",
+	"metrics": {
+		"browsers": {
+			"Chrome": 110,
+			"Go-http-client": 700
+		},
+		"countries": {
+			"FR": 700,
+			"US": 110
+		},
+		"handlers": {
+			"/arman_tarkhanain": 600,
+			"/arman_tarkhanian": 181,
+			"/assets": 1,
+			"/docker": 12,
+			"/docker/compose": 1,
+			"/durov": 1,
+			"/friends": 5,
+			"/internal/api": 7,
+			"/user": 1,
+			"/users": 1
+		},
+		"os": {
+			"": 700,
+			"Linux": 110
+		}
+	}
+}

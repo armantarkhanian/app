@@ -10,6 +10,7 @@ import (
 	internalSessions "app/internal/pkg/sessions"
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
@@ -100,8 +101,12 @@ func Metrics() gin.HandlerFunc {
 		path := c.Request.URL.Path
 
 		ua := ua.Parse(c.Request.UserAgent())
-
+		if ua.OS == "" {
+			ua.OS = "others"
+		}
 		metrics.Incr("handlers", path)
+		metrics.Incr("methods", c.Request.Method)
+		metrics.Incr("statusCodes", strconv.Itoa(c.Writer.Status()))
 		metrics.Incr("os", ua.OS)
 		metrics.Incr("browsers", ua.Name)
 

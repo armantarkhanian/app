@@ -2,9 +2,11 @@
 package metrics
 
 import (
+	"app/internal/pkg/global"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"strings"
 	"sync"
@@ -44,6 +46,7 @@ func (metricStruct *metricStore) Get(metricType, key string) (value int) {
 	return value
 }
 
+// hourKey is a string in format year/month/day/hour
 type hourKey string
 
 var (
@@ -56,7 +59,9 @@ func currentStore() *metricStore {
 		return stores[lastHourKey]
 	}
 	stores[lastHourKey].Status = "completed"
-	stores[lastHourKey].saveFile()
+	if err := stores[lastHourKey].saveFile(); err != nil {
+		log.Println("[ERROR]", err)
+	}
 	delete(stores, lastHourKey)
 	initCurrentStore()
 	return stores[lastHourKey]
@@ -75,20 +80,29 @@ func (store *metricStore) hourKey() hourKey {
 	return hourKey(fmt.Sprintf("%v/%v/%v/%v", store.Year, store.Month, store.Day, store.Hour))
 }
 
-func (store *metricStore) Filepath() string {
+func (store *metricStore) filepath() string {
 	return "./metrics/" + string(store.hourKey()) + ".json"
 }
-func (store *metricStore) Dir() string {
+
+func (store *metricStore) dir() string {
 	array := strings.Split(string(store.hourKey()), "/")
 	if len(array) == 4 {
 		return strings.Join(array[:3], "/")
 	}
 	return ""
 }
+
 func (store *metricStore) readFromFile() {
-	os.MkdirAll("./metrics/"+store.Dir(), 0755)
-	bytes, _ := ioutil.ReadFile(store.Filepath())
-	json.Unmarshal(bytes, store)
+	if err := os.MkdirAll("./metrics/"+store.dir(), 0755); err != nil && err != os.ErrExist {
+		log.Println(err)
+	}
+	bytes, err := ioutil.ReadFile(store.filepath())
+	if err != nil {
+		log.Println("[ERROR]", err)
+	}
+	if err := json.Unmarshal(bytes, store); err != nil {
+		log.Println("[ERROR]", err)
+	}
 	if store.Status != "active" && store.Status != "completed" {
 		store.Status = "active"
 	}
@@ -99,10 +113,9 @@ func (store *metricStore) saveFile() error {
 	if err != nil {
 		return err
 	}
-	if err := ioutil.WriteFile(store.Filepath(), bytes, 0644); err != nil {
+	if err := ioutil.WriteFile(store.filepath(), bytes, 0644); err != nil {
 		return err
 	}
-	fmt.Println("File", store.Filepath(), "saved.")
 	return nil
 }
 
@@ -125,11 +138,13 @@ func initCurrentStore() {
 	lastHourKey = hourKey(fmt.Sprintf("%v/%v/%v/%v", year, month, day, hour))
 
 	stores[lastHourKey] = &metricStore{
-		Year:   year,
-		Month:  month,
-		Day:    day,
-		Hour:   hour,
-		Status: "active",
+		BackendID: global.BackendID,
+		BackendIP: global.BackendIP,
+		Year:      year,
+		Month:     month,
+		Day:       day,
+		Hour:      hour,
+		Status:    "active",
 	}
 
 	stores[lastHourKey].readFromFile()

@@ -5,21 +5,22 @@
 	"month": 3,
 	"day": 21,
 	"hour": 11,
-	"status": "active",
+	"status": "completed",
 	"metrics": {
 		"browsers": {
-			"Chrome": 5
+			"Chrome": 60
 		},
 		"countries": {
-			"US": 5
+			"US": 60
 		},
 		"handlers": {
+			"/docker": 54,
 			"/favicon.ico": 1,
-			"/fuck": 1,
+			"/fuck": 2,
 			"/metrics": 3
 		},
 		"os": {
-			"Linux": 5
+			"Linux": 60
 		}
 	}
 }
