@@ -9,15 +9,15 @@ import (
 )
 
 var (
-	Ctx    = context.Background()
-	Client *redis.Client
+	Ctx     = context.Background()
+	Cluster *redis.ClusterClient
 )
 
 func Init() {
-	Client = redis.NewClient(&redis.Options{
-		Addr: "localhost:6379",
+	Cluster = redis.NewClusterClient(&redis.ClusterOptions{
+		Addrs: []string{"localhost:6379"},
 	})
-	if err := Client.Ping(Ctx).Err(); err != nil {
+	if err := Cluster.Ping(Ctx).Err(); err != nil {
 		log.Fatalln("[FATAL] [redis]", err)
 	}
 }

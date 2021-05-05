@@ -1,0 +1,8 @@
+{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"INFO", "msg":"Server is running", "caller": "main.go:9"}
+{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"ERROR", "msg":"sql: unknown driver "mysql" (forgotten import?)", "caller": "main.go:12"}
+{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"INFO", "msg":"Server is running", "caller": "main.go:9"}
+{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"ERROR", "msg":"sql: unknown driver "mysql" (forgotten import?)", "caller": "main.go:12"}
+{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"INFO", "msg":"Server is running", "caller": "main.go:9"}
+{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"ERROR", "msg":"sql: unknown driver "mysql" (forgotten import?)", "caller": "main.go:12"}
+{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"INFO", "msg":"Server is running", "caller": "main.go:9"}
+{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"ERROR", "msg":"sql: unknown driver "mysql" (forgotten import?)", "caller": "main.go:12"}

@@ -6,6 +6,7 @@ import (
 	"app/internal/pkg/global"
 	internalJWT "app/internal/pkg/jwt"
 	"app/internal/pkg/keys"
+	"app/internal/pkg/logger"
 	"app/internal/pkg/metrics"
 	internalSessions "app/internal/pkg/sessions"
 	"fmt"
@@ -76,7 +77,7 @@ func AccessLogger() gin.HandlerFunc {
 			log.Println("[ERROR]", errs)
 		}
 
-		global.AccessLog.Log().
+		logger.AccessLog.Log().
 			Int64("time", timeStamp.Unix()).
 			Int("backendID", global.BackendID).
 			Str("countryCode", countryCode).

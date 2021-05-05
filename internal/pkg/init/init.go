@@ -13,7 +13,10 @@ import (
 
 func init() {
 	configs.Init()
-	logger.Init()
+	if err := logger.Init(); err != nil {
+		log.Fatalln("[FATAL] [logger]", err)
+	}
+	
 	sessions.Init()
 	db.Init()
 	redis.Init()

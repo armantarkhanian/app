@@ -25,9 +25,9 @@ func Init() {
 
 	store.Options(sessions.Options{
 		Path:     "/",
-		Domain:   configs.Store.Sessions.Domain,
-		MaxAge:   configs.Store.Sessions.MaxAge,
-		Secure:   configs.Store.Sessions.Secure,
+		Domain:   "localhost",
+		MaxAge:   7776000,
+		Secure:   false,
 		HttpOnly: true,
 	})
 }

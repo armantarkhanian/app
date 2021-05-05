@@ -18,7 +18,6 @@ import (
 type metricStore struct {
 	sync.RWMutex
 	BackendID int                       `json:"backendID"`
-	BackendIP string                    `json:"backendIP"`
 	Year      int                       `json:"year"`
 	Month     int                       `json:"month"`
 	Day       int                       `json:"day"`
@@ -26,22 +25,22 @@ type metricStore struct {
 	Metrics   map[string]map[string]int `json:"metrics"`
 }
 
-func (metricStore *metricStore) incr(metricType, key string) {
-	metricStore.Lock()
-	if metricStore.Metrics == nil {
-		metricStore.Metrics = make(map[string]map[string]int)
+func (store *metricStore) incr(metricType, key string) {
+	store.Lock()
+	if store.Metrics == nil {
+		store.Metrics = make(map[string]map[string]int)
 	}
-	if metricStore.Metrics[metricType] == nil {
-		metricStore.Metrics[metricType] = make(map[string]int)
+	if store.Metrics[metricType] == nil {
+		store.Metrics[metricType] = make(map[string]int)
 	}
-	metricStore.Metrics[metricType][key]++
-	metricStore.Unlock()
+	store.Metrics[metricType][key]++
+	store.Unlock()
 }
 
-func (metricStore *metricStore) get(metricType, key string) (value int) {
-	metricStore.RLock()
-	value = metricStore.Metrics[metricType][key]
-	metricStore.RUnlock()
+func (store *metricStore) get(metricType, key string) (value int) {
+	store.RLock()
+	value = store.Metrics[metricType][key]
+	store.RUnlock()
 	return value
 }
 
@@ -57,7 +56,10 @@ func currentStore() *metricStore {
 	if lastHourKey == currentHourKey() {
 		return stores[lastHourKey]
 	}
-	if err := stores[lastHourKey].saveFile(); err != nil {
+
+	err := stores[lastHourKey].saveFile()
+
+	if err != nil {
 		log.Println("[ERROR]", err)
 	}
 
@@ -95,7 +97,7 @@ func (store *metricStore) dir() string {
 
 func (store *metricStore) readFromFile() {
 	if err := os.MkdirAll("./metrics/"+store.dir(), 0755); err != nil && err != os.ErrExist {
-		log.Println(err)
+		log.Println("[ERROR]", err)
 	}
 	bytes, err := ioutil.ReadFile(store.filepath())
 	if err != nil {
@@ -107,7 +109,7 @@ func (store *metricStore) readFromFile() {
 }
 
 func (store *metricStore) saveFile() error {
-	bytes, err := json.MarshalIndent(store, "", "\t")
+	bytes, err := json.Marshal(store)
 	if err != nil {
 		return err
 	}
@@ -119,7 +121,9 @@ func (store *metricStore) saveFile() error {
 
 func init() {
 	stores = make(map[hourKey]*metricStore)
+
 	initCurrentStore()
+
 	go func() {
 		gocron.Every(30).Seconds().Do(task)
 		<-gocron.Start()
@@ -137,7 +141,6 @@ func initCurrentStore() {
 
 	stores[lastHourKey] = &metricStore{
 		BackendID: global.BackendID,
-		BackendIP: global.BackendIP,
 		Year:      year,
 		Month:     month,
 		Day:       day,

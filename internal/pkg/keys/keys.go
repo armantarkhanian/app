@@ -1,7 +1,7 @@
 // Package keys ...
 package keys
 
-var (
+const (
 	SessionID        = "sessionID"
 	TokenID          = "tokenID"
 	UserID           = "userID"

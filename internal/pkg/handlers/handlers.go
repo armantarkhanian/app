@@ -13,7 +13,9 @@ import (
 )
 
 type apiRequest struct {
-	Data string `json:"data"`
+	Method        string `json:"method"`
+	MethodVersion string `json:"methodVersion"`
+	Data          string `json:"data"`
 }
 
 var (
@@ -43,21 +45,19 @@ func Init() {
 
 	server.Router.GET("/login", jwt.LoginHandler())
 
-	server.Router.POST("/internal/api/:m/:v", middlewares.Auth(), func(c *gin.Context) {
-		method := c.Param("m")
-		version := c.Param("v")
+	server.Router.POST("/internal/api", middlewares.Auth(), func(c *gin.Context) {
 		var request apiRequest
 		if err := c.ShouldBindJSON(&request); err != nil {
 			log.Println("[ERROR]", err)
 			c.JSON(200, gin.H{"error": err})
 			return
 		}
-		supportedVersions, exists := supportedMethods[method]
+		supportedVersions, exists := supportedMethods[request.Method]
 		if !exists {
 			c.JSON(200, gin.H{"error": "unsupported method"})
 			return
 		}
-		handlerFunc, exists := supportedVersions[version]
+		handlerFunc, exists := supportedVersions[request.MethodVersion]
 		if !exists {
 			c.JSON(200, gin.H{"error": "unsupported version of method"})
 			return
