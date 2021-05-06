@@ -1,21 +1,23 @@
 package main
 
 import (
-	log "app/internal/pkg/logger"
-	"database/sql"
+	"log"
 
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	log.Info("Trying to connect to mysql:")
-	db, err := sql.Open("mysql", "msandbox:msandbox@tcp(127.0.0.1:26223)/")
-	if err != nil {
+	router := gin.New()
+	router.Use(GinContextToContextMiddleware())
+
+	router.GET("/connection/websocket", centrifugeHandler())
+	router.LoadHTMLFiles("index.html")
+
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
+
+	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
-	if err := db.Ping(); err != nil {
-		log.Fatal(err)
-	}
-	log.Info("Successfull connection to InnoDB Cluster")
 }
