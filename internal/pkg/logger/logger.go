@@ -27,7 +27,7 @@ func init() {
 		log.Fatalln(err)
 	}
 
-	accessLog, err := os.OpenFile(about.LogDirectory+"access.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	accessLogFile, err := os.OpenFile(about.LogDirectory+"access.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -49,34 +49,34 @@ func init() {
 		file = short
 		return file + ":" + strconv.Itoa(line)
 	}
-	AccessLog = zerolog.New(accessLog).With().Timestamp().Logger().With().Caller().Logger().With().Str("host", "192.143.34.54").Logger()
+	AccessLog = zerolog.New(accessLogFile).With().Timestamp().Logger().With().Caller().Logger().With().Str("host", "192.143.34.54").Logger()
 }
 
 func Info(v ...interface{}) {
-	mainLog.WriteString(output("INFO   ", fmt.Sprint(v...)))
+	mainLog.WriteString(output("[INFO] ", fmt.Sprint(v...)))
 }
 func Error(v ...interface{}) {
-	mainLog.WriteString(output("ERROR  ", fmt.Sprint(v...)))
+	mainLog.WriteString(output("[ERROR]", fmt.Sprint(v...)))
 }
 func Warning(v ...interface{}) {
-	mainLog.WriteString(output("WARNING", fmt.Sprint(v...)))
+	mainLog.WriteString(output("[WARN] ", fmt.Sprint(v...)))
 }
 func Fatal(v ...interface{}) {
-	mainLog.WriteString(output("FATAL  ", fmt.Sprint(v...)))
+	mainLog.WriteString(output("[FATAL]", fmt.Sprint(v...)))
 	os.Exit(1)
 }
 
 func Infof(format string, v ...interface{}) {
-	mainLog.WriteString(output("INFO   ", fmt.Sprintf(format, v...)))
+	mainLog.WriteString(output("[INFO] ", fmt.Sprintf(format, v...)))
 }
 func Errorf(format string, v ...interface{}) {
-	mainLog.WriteString(output("ERROR  ", fmt.Sprintf(format, v...)))
+	mainLog.WriteString(output("[ERROR]", fmt.Sprintf(format, v...)))
 }
 func Warningf(format string, v ...interface{}) {
-	mainLog.WriteString(output("WARNING", fmt.Sprintf(format, v...)))
+	mainLog.WriteString(output("[WARN] ", fmt.Sprintf(format, v...)))
 }
 func Fatalf(format string, v ...interface{}) {
-	mainLog.WriteString(output("FATAL  ", fmt.Sprintf(format, v...)))
+	mainLog.WriteString(output("[FATAL]", fmt.Sprintf(format, v...)))
 	os.Exit(1)
 }
 
@@ -84,13 +84,13 @@ func output(prefix string, data string) string {
 	/*
 		switch prefix {
 		case "FTL":
-			data = "FATAL: " + data
+			data = "[FATAL]: " + data
 		case "ERR":
-			data = "ERROR: " + data
+			data = "[ERROR]: " + data
 		case "   ":
-			data = "INFO: " + data
+			data = "[INFO]: " + data
 		case "WRN":
-			data = "WARNING: " + data
+			data = "[WARN]ING: " + data
 		}*/
 	var (
 		file string
@@ -112,7 +112,7 @@ func output(prefix string, data string) string {
 	file = short
 
 	caller := file + ":" + strconv.Itoa(line) + ":"
-	value := 25 - len(caller)
+	value := 20 - len(caller)
 	if value >= 0 {
 		caller = strings.Repeat(".", value) + caller
 	} else {

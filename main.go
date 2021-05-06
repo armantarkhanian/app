@@ -1,22 +1,21 @@
 package main
 
 import (
-	"app/internal/pkg/logger"
+	log "app/internal/pkg/logger"
 	"database/sql"
-	"errors"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	logger.Info("server is running at port :8080")
-	logger.Infof("%s", "server is running at port :8080")
-	_, err := sql.Open("mysql", "faq")
+	log.Info("Trying to connect to mysql:")
+	db, err := sql.Open("mysql", "msandbox:msandbox@tcp(127.0.0.1:26223)/")
 	if err != nil {
-		logger.Errorf("ERROR: %v", err)
+		log.Fatal(err)
 	}
-	logger.Warningf("can't connect to telegram bot server: %v", errors.New("http timeout deadline"))
-	logger.Info("server is running at port :8080")
-	_, err = sql.Open("mysql", "faq")
-	if err != nil {
-		logger.Fatal(err)
+	defer db.Close()
+	if err := db.Ping(); err != nil {
+		log.Fatal(err)
 	}
+	log.Info("Successfull connection to InnoDB Cluster")
 }

@@ -1,24 +1,72 @@
-2021/06/05 09:05:07 ..............main.go:10: [INFO]    server is running at port :8080
-2021/06/05 09:05:07 ..............main.go:11: [INFO]    server is running at port :8080
-2021/06/05 09:05:07 ..............main.go:14: [ERROR]   sql: unknown driver "mysql" (forgotten import?)
-2021/06/05 09:05:07 ..............main.go:16: [WARNING] can't connect to telegram bot server: %vhttp timeout deadline
-2021/06/05 09:05:07 ..............main.go:17: [INFO]    server is running at port :8080
-2021/06/05 09:05:07 ..............main.go:20: [FATAL]   sql: unknown driver "mysql" (forgotten import?)
-2021/06/05 09:05:07 ..............main.go:10: [INFO]    server is running at port :8080
-2021/06/05 09:05:07 ..............main.go:11: [INFO]    server is running at port :8080
-2021/06/05 09:05:07 ..............main.go:14: [ERROR]   sql: unknown driver "mysql" (forgotten import?)
-2021/06/05 09:05:07 ..............main.go:16: [WARNING] can't connect to telegram bot server: %vhttp timeout deadline
-2021/06/05 09:05:07 ..............main.go:17: [INFO]    server is running at port :8080
-2021/06/05 09:05:07 ..............main.go:20: [FATAL]   sql: unknown driver "mysql" (forgotten import?)
-2021/06/05 09:05:07 ..............main.go:10: [INFO]    server is running at port :8080
-2021/06/05 09:05:07 ..............main.go:11: [INFO]    server is running at port :8080
-2021/06/05 09:05:07 ..............main.go:14: [ERROR]   sql: unknown driver "mysql" (forgotten import?)
-2021/06/05 09:05:07 ..............main.go:16: [WARNING] can't connect to telegram bot server: %vhttp timeout deadline
-2021/06/05 09:05:07 ..............main.go:17: [INFO]    server is running at port :8080
-2021/06/05 09:05:07 ..............main.go:20: [FATAL]   sql: unknown driver "mysql" (forgotten import?)
-2021/06/05 09:05:10 ..............main.go:10: [INFO]    server is running at port :8080
-2021/06/05 09:05:10 ..............main.go:11: [INFO]    server is running at port :8080
-2021/06/05 09:05:10 ..............main.go:14: [ERROR]   sql: unknown driver "mysql" (forgotten import?)
-2021/06/05 09:05:10 ..............main.go:16: [WARNING] can't connect to telegram bot server: %vhttp timeout deadline
-2021/06/05 09:05:10 ..............main.go:17: [INFO]    server is running at port :8080
-2021/06/05 09:05:10 ..............main.go:20: [FATAL]   sql: unknown driver "mysql" (forgotten import?)
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [FATAL] dial tcp 127.0.0.1:26223: connect: connection refused
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [FATAL] dial tcp 127.0.0.1:26223: connect: connection refused
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [FATAL] dial tcp 127.0.0.1:26223: connect: connection refused
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [FATAL] dial tcp 127.0.0.1:26223: connect: connection refused
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [FATAL] dial tcp 127.0.0.1:26223: connect: connection refused
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [FATAL] dial tcp 127.0.0.1:26223: connect: connection refused
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [FATAL] dial tcp 127.0.0.1:26223: connect: connection refused
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [FATAL] dial tcp 127.0.0.1:26223: connect: connection refused
+2021/06/05 10:22:33 ..............main.go:11: [INFO]  Trying to connect to mysql...
+2021/06/05 10:22:33 ..............main.go:18: [INFO]  Successfull connected to InnoDB Cluster
+2021/06/05 10:22:33 ...change_username.go:18: [INFO]  Trying change username of user
+2021/06/05 10:22:33 ...........notify.go:345: [WARN]  notify: telegram: http timeout
+2021/06/05 10:22:33 on_change_username.go:18: [ERROR] username changing faild: cluster is locked now
