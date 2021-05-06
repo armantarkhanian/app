@@ -51,7 +51,7 @@ func init() {
 			userID := "arman"
 			sessionID := uuid.New().String()
 
-			if err := redis.Client.SAdd(redis.Ctx, "u:"+userID+":s", sessionID).Err(); err != nil {
+			if err := redis.Cluster.SAdd(redis.Ctx, "u:"+userID+":s", sessionID).Err(); err != nil {
 				log.Println("[ERROR] [redis]", err)
 				return nil, errors.New("database error")
 			}
@@ -63,7 +63,7 @@ func init() {
 		},
 		Authorizator: func(data interface{}, c *gin.Context) bool {
 			if v, ok := data.(*payload); ok {
-				cmd := redis.Client.SIsMember(redis.Ctx, "u:"+v.UserID+":s", v.SessionID)
+				cmd := redis.Cluster.SIsMember(redis.Ctx, "u:"+v.UserID+":s", v.SessionID)
 				if cmd.Err() != nil {
 					log.Println("[ERROR] [redis]", cmd.Err())
 				}

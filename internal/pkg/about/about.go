@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	LogDirectory    string = "/var/log/app/"
-	ConfigDirectory string = "/etc/app/"
+	LogDirectory    string = "/var/log/backend/"
+	ConfigDirectory string = "/etc/backend/"
 )
 
 func init() {

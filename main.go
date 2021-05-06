@@ -1,21 +1,22 @@
 package main
 
 import (
-	_ "app/internal/pkg/logger"
+	"app/internal/pkg/logger"
 	"database/sql"
-	"log"
+	"errors"
 )
 
 func main() {
-	log.Println("server is running at port :8080")
+	logger.Info("server is running at port :8080")
+	logger.Infof("%s", "server is running at port :8080")
 	_, err := sql.Open("mysql", "faq")
 	if err != nil {
-		log.Println(err)
+		logger.Errorf("ERROR: %v", err)
 	}
-	log.Println("server is running at port :8080")
+	logger.Warningf("can't connect to telegram bot server: %v", errors.New("http timeout deadline"))
+	logger.Info("server is running at port :8080")
 	_, err = sql.Open("mysql", "faq")
 	if err != nil {
-		log.Println(err)
-		log.Fatalln(err)
+		logger.Fatal(err)
 	}
 }

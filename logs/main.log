@@ -1,8 +1,24 @@
-{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"INFO", "msg":"Server is running", "caller": "main.go:9"}
-{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"ERROR", "msg":"sql: unknown driver "mysql" (forgotten import?)", "caller": "main.go:12"}
-{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"INFO", "msg":"Server is running", "caller": "main.go:9"}
-{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"ERROR", "msg":"sql: unknown driver "mysql" (forgotten import?)", "caller": "main.go:12"}
-{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"INFO", "msg":"Server is running", "caller": "main.go:9"}
-{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"ERROR", "msg":"sql: unknown driver "mysql" (forgotten import?)", "caller": "main.go:12"}
-{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"INFO", "msg":"Server is running", "caller": "main.go:9"}
-{"time":"2021/05/05 16:09:00","backendID":1,"ip":"127.0.0.1","level":"ERROR", "msg":"sql: unknown driver "mysql" (forgotten import?)", "caller": "main.go:12"}
+2021/06/05 09:05:07 ..............main.go:10: [INFO]    server is running at port :8080
+2021/06/05 09:05:07 ..............main.go:11: [INFO]    server is running at port :8080
+2021/06/05 09:05:07 ..............main.go:14: [ERROR]   sql: unknown driver "mysql" (forgotten import?)
+2021/06/05 09:05:07 ..............main.go:16: [WARNING] can't connect to telegram bot server: %vhttp timeout deadline
+2021/06/05 09:05:07 ..............main.go:17: [INFO]    server is running at port :8080
+2021/06/05 09:05:07 ..............main.go:20: [FATAL]   sql: unknown driver "mysql" (forgotten import?)
+2021/06/05 09:05:07 ..............main.go:10: [INFO]    server is running at port :8080
+2021/06/05 09:05:07 ..............main.go:11: [INFO]    server is running at port :8080
+2021/06/05 09:05:07 ..............main.go:14: [ERROR]   sql: unknown driver "mysql" (forgotten import?)
+2021/06/05 09:05:07 ..............main.go:16: [WARNING] can't connect to telegram bot server: %vhttp timeout deadline
+2021/06/05 09:05:07 ..............main.go:17: [INFO]    server is running at port :8080
+2021/06/05 09:05:07 ..............main.go:20: [FATAL]   sql: unknown driver "mysql" (forgotten import?)
+2021/06/05 09:05:07 ..............main.go:10: [INFO]    server is running at port :8080
+2021/06/05 09:05:07 ..............main.go:11: [INFO]    server is running at port :8080
+2021/06/05 09:05:07 ..............main.go:14: [ERROR]   sql: unknown driver "mysql" (forgotten import?)
+2021/06/05 09:05:07 ..............main.go:16: [WARNING] can't connect to telegram bot server: %vhttp timeout deadline
+2021/06/05 09:05:07 ..............main.go:17: [INFO]    server is running at port :8080
+2021/06/05 09:05:07 ..............main.go:20: [FATAL]   sql: unknown driver "mysql" (forgotten import?)
+2021/06/05 09:05:10 ..............main.go:10: [INFO]    server is running at port :8080
+2021/06/05 09:05:10 ..............main.go:11: [INFO]    server is running at port :8080
+2021/06/05 09:05:10 ..............main.go:14: [ERROR]   sql: unknown driver "mysql" (forgotten import?)
+2021/06/05 09:05:10 ..............main.go:16: [WARNING] can't connect to telegram bot server: %vhttp timeout deadline
+2021/06/05 09:05:10 ..............main.go:17: [INFO]    server is running at port :8080
+2021/06/05 09:05:10 ..............main.go:20: [FATAL]   sql: unknown driver "mysql" (forgotten import?)
