@@ -6,6 +6,7 @@ require (
 	github.com/IncSW/geoip2 v0.1.0
 	github.com/appleboy/gin-jwt/v2 v2.6.4
 	github.com/centrifugal/centrifuge v0.17.0
+	github.com/centrifugal/protocol v0.5.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/gin-contrib/sessions v0.0.3
 	github.com/gin-contrib/zap v0.0.1
@@ -13,9 +14,13 @@ require (
 	github.com/go-playground/validator/v10 v10.4.1
 	github.com/go-redis/redis/v8 v8.7.1
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/gobwas/httphead v0.1.0 // indirect
+	github.com/gobwas/pool v0.2.1 // indirect
+	github.com/gobwas/ws v1.0.4
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/google/uuid v1.2.0
 	github.com/jasonlvhit/gocron v0.0.1
+	github.com/mailru/easygo v0.0.0-20190618140210-3c14a0dc985f
 	github.com/mileusna/useragent v1.0.2
 	github.com/penglongli/gin-metrics v0.1.1
 	github.com/rs/zerolog v1.21.0

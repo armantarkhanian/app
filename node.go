@@ -40,14 +40,19 @@ func GinContextFromContext(ctx context.Context) (*gin.Context, error) {
 func authMiddleware(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		_, err := GinContextFromContext(ctx)
+		c, err := GinContextFromContext(ctx)
 		if err != nil {
 			fmt.Printf("Failed to retrieve gin context")
 			fmt.Print(err.Error())
 			return
 		}
+		username, _ := c.Cookie("username")
+		if username != "user_15" {
+			w.Write([]byte(`{"error": "unauthorised"}`))
+			return
+		}
 		cred := &centrifuge.Credentials{
-			UserID: "",
+			UserID: username,
 		}
 		newCtx := centrifuge.SetCredentials(ctx, cred)
 		r = r.WithContext(newCtx)
@@ -61,29 +66,53 @@ func initNode() (*centrifuge.Node, error) {
 		return nil, err
 	}
 
-	node.OnConnect(func(client *centrifuge.Client) {
-		transportName := client.Transport().Name()
-		transportProto := client.Transport().Protocol()
-		log.Printf("client connected via %s (%s)", transportName, transportProto)
+	connectHandler := func(client *centrifuge.Client) {
 		client.OnRPC(func(e centrifuge.RPCEvent, callback centrifuge.RPCCallback) {
-			fmt.Println(string(e.Data))
-			callback(centrifuge.RPCReply{
-				Data: []byte(`{"status": "ok"}`),
-			}, nil)
+			callback(onRPC(node, client, &e))
 		})
-
-		client.OnSubscribe(func(e centrifuge.SubscribeEvent, cb centrifuge.SubscribeCallback) {
-			log.Printf("client subscribes on channel %s", e.Channel)
-			cb(centrifuge.SubscribeReply{}, nil)
+		client.OnSubscribe(func(e centrifuge.SubscribeEvent, callback centrifuge.SubscribeCallback) {
+			callback(onSubscribe(node, client, &e))
 		})
-		client.OnPublish(func(e centrifuge.PublishEvent, cb centrifuge.PublishCallback) {
-			log.Printf("client publishes into channel %s: %s", e.Channel, string(e.Data))
-			cb(centrifuge.PublishReply{}, nil)
+		client.OnMessage(func(e centrifuge.MessageEvent) {
+			onMessage(node, client, &e)
+		})
+		client.OnPublish(func(e centrifuge.PublishEvent, callback centrifuge.PublishCallback) {
+			callback(onPublish(node, client, &e))
 		})
 		client.OnDisconnect(func(e centrifuge.DisconnectEvent) {
-			log.Printf("client disconnected")
+			onDisconect(node, client, &e)
 		})
+	}
+
+	node.OnConnect(connectHandler)
+
+	redisShardConfigs := []centrifuge.RedisShardConfig{{Address: "localhost:6379"}}
+
+	var redisShards []*centrifuge.RedisShard
+	for _, redisConf := range redisShardConfigs {
+		redisShard, err := centrifuge.NewRedisShard(node, redisConf)
+		if err != nil {
+			log.Println(err)
+		}
+		redisShards = append(redisShards, redisShard)
+	}
+
+	broker, err := centrifuge.NewRedisBroker(node, centrifuge.RedisBrokerConfig{
+		Shards: redisShards,
 	})
+	if err != nil {
+		log.Println(err)
+	}
+
+	node.SetBroker(broker)
+
+	presenceManager, err := centrifuge.NewRedisPresenceManager(node, centrifuge.RedisPresenceManagerConfig{
+		Shards: redisShards,
+	})
+	if err != nil {
+		log.Println(err)
+	}
+	node.SetPresenceManager(presenceManager)
 
 	return node, node.Run()
 }
@@ -94,5 +123,5 @@ func centrifugeHandler() gin.HandlerFunc {
 		panic(err)
 	}
 	wsHandler := centrifuge.NewWebsocketHandler(node, centrifuge.WebsocketConfig{})
-	return gin.WrapH(authMiddleware(wsHandler))
+	return gin.WrapH(wsHandler)
 }
