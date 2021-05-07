@@ -1,0 +1,31 @@
+[23:59:33.940] Global cache location '/home/arman/.cache/typescript/4.1', safe file path '/usr/local/lib/node_modules/typescript/lib/typingSafeList.json', types map path /usr/local/lib/node_modules/typescript/lib/typesMap.json
+[23:59:33.943] Processing cache location '/home/arman/.cache/typescript/4.1'
+[23:59:33.943] Trying to find '/home/arman/.cache/typescript/4.1/package.json'...
+[23:59:33.974] Loaded content of '/home/arman/.cache/typescript/4.1/package.json': {"private":true,"dependencies":{"types-registry":"^0.1.540"}}
+[23:59:33.974] Loaded content of '/home/arman/.cache/typescript/4.1/package-lock.json'
+[23:59:33.974] Finished processing cache location '/home/arman/.cache/typescript/4.1'
+[23:59:33.975] Process id: 397412
+[23:59:33.975] NPM location: /usr/bin/npm (explicit '--npmLocation' not  provided)
+[23:59:33.975] validateDefaultNpmLocation: false
+[23:59:33.975] Npm config file: /home/arman/.cache/typescript/4.1/package.json
+[23:59:33.975] Updating types-registry npm package...
+[23:59:33.976] Exec: /usr/bin/npm install --ignore-scripts types-registry@latest
+[23:59:42.103]     Succeeded. stdout:
+    + types-registry@0.1.540
+    updated 1 package and audited 1 package in 3.283s
+found 0 vulnerabilities
+
+
+[23:59:42.103] Updated types-registry npm package
+[23:59:42.143] Got install request {"projectName":"/dev/null/inferredProject1*","fileNames":["/usr/local/lib/node_modules/typescript/lib/lib.es5.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2015.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2016.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.dom.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.dom.iterable.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.webworker.importscripts.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.scripthost.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2015.core.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2015.collection.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2015.generator.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2015.iterable.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2015.promise.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2015.proxy.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2015.reflect.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2015.symbol.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2016.array.include.d.ts","/usr/local/lib/node_modules/typescript/lib/lib.es2016.full.d.ts","/home/arman/go/src/app/index.js"],"compilerOptions":{"module":1,"target":3,"jsx":1,"allowJs":true,"allowSyntheticDefaultImports":true,"allowNonTsExtensions":true,"noEmitForJsFiles":true,"maxNodeModuleJsDepth":2},"typeAcquisition":{"enable":true,"include":[],"exclude":[]},"unresolvedImports":[],"projectRootPath":"/home/arman/go/src/app","kind":"discover"}
+[23:59:42.203] Loaded safelist from types map file '/usr/local/lib/node_modules/typescript/lib/typesMap.json'
+[23:59:42.204] Explicitly included types: []
+[23:59:42.207] Inferred typings from unresolved imports: []
+[23:59:42.207] Result: {"cachedTypingPaths":[],"newTypingNames":[],"filesToWatch":["/home/arman/go/src/app/bower_components","/home/arman/go/src/app/node_modules"]}
+[23:59:42.207] Finished typings discovery: {"cachedTypingPaths":[],"newTypingNames":[],"filesToWatch":["/home/arman/go/src/app/bower_components","/home/arman/go/src/app/node_modules"]}
+[23:59:42.208] DirectoryWatcher:: Added:: WatchInfo: /home/arman/go/src/app/bower_components
+[23:59:42.212] DirectoryWatcher:: Added:: WatchInfo: /home/arman/go/src/app/node_modules
+[23:59:42.213] Sending response:
+    {"projectName":"/dev/null/inferredProject1*","typeAcquisition":{"enable":true,"include":[],"exclude":[]},"compilerOptions":{"module":1,"target":3,"jsx":1,"allowJs":true,"allowSyntheticDefaultImports":true,"allowNonTsExtensions":true,"noEmitForJsFiles":true,"maxNodeModuleJsDepth":2},"typings":[],"unresolvedImports":[],"kind":"action::set"}
+[23:59:42.214] Response has been sent.
+[23:59:42.214] No new typings were requested as a result of typings discovery

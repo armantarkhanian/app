@@ -5,7 +5,7 @@ window.onload = function() {
         div.innerHTML = text + '<br>';
         document.body.appendChild(div);
     }
-    centrifuge.on('connect', function(ctx){
+    centrifuge.on('connect', function(ctx) {        
         drawText('Connected over ' + ctx.transport);
         centrifuge.rpc({"method": "like", "userID": "15", "photoID": "34"}).then(function(res) {
             console.log('rpc result', res);
@@ -18,12 +18,11 @@ window.onload = function() {
         drawText('Disconnected: ' + ctx.reason);
     });
 
-    centrifuge.on('publish', function(ctx) {
+    centrifuge.on('publish', function(ctx) {        
         const channel = ctx.channel;
         const payload = JSON.stringify(ctx.data);
         alert('Publication from server-side channel ' + channel + ": " + payload);
     });
-
 
     const sub = centrifuge.subscribe("chat", function(ctx) {
         document.getElementsByTagName("title")[0].innerHTML = JSON.stringify(ctx.data);

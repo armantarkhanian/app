@@ -57,7 +57,7 @@ func Run(addr string, redisHosts ...string) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	
 	http.Handle("/connection/websocket", authMiddleware(centrifuge.NewWebsocketHandler(node, centrifuge.WebsocketConfig{
 		ReadBufferSize: 1024,
 		CheckOrigin: func(*http.Request) bool {
