@@ -7,38 +7,43 @@ import (
 	"github.com/centrifugal/centrifuge"
 )
 
-type WebSocket struct {
-	aliveHandler         centrifuge.AliveHandler
-	disconnectHandler    centrifuge.DisconnectHandler
-	subscribeHandler     centrifuge.SubscribeHandler
-	unsubscribeHandler   centrifuge.UnsubscribeHandler
-	publishHandler       centrifuge.PublishHandler
-	refreshHandler       centrifuge.RefreshHandler
-	subRefreshHandler    centrifuge.SubRefreshHandler
-	rpcHandler           centrifuge.RPCHandler
-	messageHandler       centrifuge.MessageHandler
-	presenceHandler      centrifuge.PresenceHandler
-	presenceStatsHandler centrifuge.PresenceStatsHandler
-	historyHandler       centrifuge.HistoryHandler
+func PresenceStatsHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.PresenceStatsEvent) (centrifuge.PresenceStatsReply, error) {
+	return centrifuge.PresenceStatsReply{}, nil
 }
+func RefreshHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.RefreshEvent) (centrifuge.RefreshReply, error) {
+	return centrifuge.RefreshReply{}, nil
+}
+func SubRefreshHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.SubRefreshEvent) (centrifuge.SubRefreshReply, error) {
+	return centrifuge.SubRefreshReply{}, nil
+}
+
+func PresenceHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.PresenceEvent) (centrifuge.PresenceReply, error) {
+	return centrifuge.PresenceReply{}, nil
+}
+func HistoryHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.HistoryEvent) (centrifuge.HistoryReply, error) {
+	return centrifuge.HistoryReply{}, nil
+}
+
+func AliveHandler(n *centrifuge.Node, c *centrifuge.Client)                                       {}
+func UnsubscribeHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.UnsubscribeEvent) {}
 
 func RPCHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.RPCEvent) (centrifuge.RPCReply, error) {
-	return centrifuge.RPCReply{Data: e.Data}, nil
+	return centrifuge.RPCReply{}, nil
 }
 
-func onSubscribe(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.SubscribeEvent) (centrifuge.SubscribeReply, error) {
+func SubscribeHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.SubscribeEvent) (centrifuge.SubscribeReply, error) {
 	return centrifuge.SubscribeReply{}, nil
 }
 
-func onMessage(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.MessageEvent) {
+func MessageHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.MessageEvent) {
 	c.Send(e.Data)
 }
 
-func onDisconect(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.DisconnectEvent) {
+func DisconectHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.DisconnectEvent) {
 	log.Printf("client %q disconnected", c.UserID())
 }
 
-func onPublish(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.PublishEvent) (centrifuge.PublishReply, error) {
+func PublishHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.PublishEvent) (centrifuge.PublishReply, error) {
 	if string(e.Data) == `"logout"` {
 		fmt.Println("Do it")
 		fmt.Println(n.Publish("user_15", []byte("1")))
