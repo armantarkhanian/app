@@ -2,7 +2,6 @@
 package sessions
 
 import (
-	"app/internal/pkg/configs"
 	"encoding/gob"
 	"time"
 

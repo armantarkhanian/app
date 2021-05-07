@@ -2,22 +2,25 @@
 package websocket
 
 import (
-	"context"
 	"log"
 	"net/http"
-	"os"
-	"os/signal"
-	"syscall"
 
 	"github.com/centrifugal/centrifuge"
 )
 
-func Run(addr string, redisHosts ...string) error {
-	node, err := centrifuge.New(centrifuge.DefaultConfig)
+func handleLog(e centrifuge.LogEntry) {
+	log.Printf("%s: %v", e.Message, e.Fields)
+}
+
+func Run(addr string, redisHosts ...string) {
+	cfg := centrifuge.DefaultConfig
+	cfg.LogLevel = centrifuge.LogLevelInfo
+	cfg.LogHandler = handleLog
+
+	node, err := centrifuge.New(cfg)
 	if err != nil {
-		return err
+		log.Fatalln(err)
 	}
-	setHandlers(node)
 
 	if len(redisHosts) > 0 {
 		var redisShards []*centrifuge.RedisShard
@@ -36,65 +39,54 @@ func Run(addr string, redisHosts ...string) error {
 			Shards: redisShards,
 		})
 		if err != nil {
-			return err
+			log.Fatalln(err)
 		}
 		presenceManager, err := centrifuge.NewRedisPresenceManager(node, centrifuge.RedisPresenceManagerConfig{
 			Shards: redisShards,
 		})
 		if err != nil {
-			return err
+			log.Fatalln(err)
 		}
 		node.SetBroker(broker)
 		node.SetPresenceManager(presenceManager)
 	}
 
+	setHandlers(node)
+
 	err = node.Run()
 	if err != nil {
-		return err
+		log.Fatalln(err)
 	}
 
-	websocketHandler := centrifuge.NewWebsocketHandler(node, centrifuge.WebsocketConfig{
-		ReadBufferSize:     1024,
+	http.Handle("/connection/websocket", authMiddleware(centrifuge.NewWebsocketHandler(node, centrifuge.WebsocketConfig{
+		ReadBufferSize: 1024,
+		CheckOrigin: func(*http.Request) bool {
+			return true
+		},
 		UseWriteBufferPool: true,
-	})
-
-	http.Handle("/connection/websocket", authMiddleware(websocketHandler))
-
-	sockjsHandler := centrifuge.NewSockjsHandler(node, centrifuge.SockjsConfig{
-		URL:                      "https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js",
-		HandlerPrefix:            "/connection/sockjs",
+	})))
+	http.Handle("/connection/sockjs/", authMiddleware(centrifuge.NewSockjsHandler(node, centrifuge.SockjsConfig{
+		URL:           "https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js",
+		HandlerPrefix: "/connection/sockjs",
+		CheckOrigin: func(*http.Request) bool {
+			return true
+		},
 		WebsocketReadBufferSize:  1024,
 		WebsocketWriteBufferSize: 1024,
-	})
-	http.Handle("/connection/sockjs/", authMiddleware(sockjsHandler))
+	})))
 
-	http.Handle("/", http.FileServer(http.Dir("./")))
-
-	return nil
+	if err := http.ListenAndServe(addr, nil); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func authMiddleware(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// r.Header.Get("Authorization")
-		// or c.Cookie("jwt")
-		// extract claims and set userID to context
 		ctx := r.Context()
 		newCtx := centrifuge.SetCredentials(ctx, &centrifuge.Credentials{
-			UserID: "admin",
+			UserID: "user_15",
 		})
 		r = r.WithContext(newCtx)
 		h.ServeHTTP(w, r)
 	})
-}
-
-func waitExitSignal(n *centrifuge.Node) {
-	sigCh := make(chan os.Signal, 1)
-	done := make(chan bool, 1)
-	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
-	go func() {
-		<-sigCh
-		_ = n.Shutdown(context.Background())
-		done <- true
-	}()
-	<-done
 }

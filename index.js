@@ -1,5 +1,5 @@
 window.onload = function() {
-    const centrifuge = new Centrifuge('ws://localhost:8080/connection/websocket?format=json');
+    const centrifuge = new Centrifuge('ws://localhost:8000/connection/websocket?format=json');
     function drawText(text) {
         const div = document.createElement('div');
         div.innerHTML = text + '<br>';
@@ -18,14 +18,16 @@ window.onload = function() {
         drawText('Disconnected: ' + ctx.reason);
     });
 
-    centrifuge.subscribe("chat", function(ctx) {
-        document.getElementsByTagName("title")[0].innerHTML = JSON.stringify(ctx.data);
-        drawText(JSON.stringify(ctx.data));
+    centrifuge.on('publish', function(ctx) {
+        const channel = ctx.channel;
+        const payload = JSON.stringify(ctx.data);
+        alert('Publication from server-side channel ' + channel + ": " + payload);
     });
 
-    centrifuge.subscribe("user_15", function(ctx) {
-        centrifuge.disconnect();
-        alert("Ты плохой сучаара");
+
+    const sub = centrifuge.subscribe("chat", function(ctx) {
+        document.getElementsByTagName("title")[0].innerHTML = JSON.stringify(ctx.data);
+        drawText(JSON.stringify(ctx.data));
     });
 
     const input = document.getElementById("input");
@@ -37,7 +39,6 @@ window.onload = function() {
     });
     // After setting event handlers – initiate actual connection with server.
     centrifuge.connect();
-
 }
 
 
