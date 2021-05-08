@@ -8,12 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	go func() {
-		websocket.Run(":8000", "localhost:6379")
-	}()
+func main() {	
+	websocketHandler, sockJSHandler, err := websocket.Run("localhost:6379")
+	if err != nil {
+		panic(err)
+	}
 
 	router := gin.New()
+	router.Use(websocket.GinContextToContextMiddleware())
+	router.GET("/connection/websocket", websocketHandler)
+	router.GET("/connection/sockjs", sockJSHandler)
 
 	router.LoadHTMLFiles("index.html")
 	router.StaticFile("/index.js", "./index.js")
