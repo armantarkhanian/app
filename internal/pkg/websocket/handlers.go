@@ -23,7 +23,10 @@ func setHandlers(node *centrifuge.Node) {
 		}, nil
 	})
 
-	node.OnConnect(func(client *centrifuge.Client) {
+	node.OnConnect(func(client *centrifuge.Client) {		
+		transportName := client.Transport().Name()
+		transportProto := client.Transport().Protocol()
+		fmt.Printf("Client %q is connect via %q with %q protocol", client.UserID(), transportName, transportProto)
 		client.OnAlive(func() {
 			AliveHandler(node, client)
 		})
