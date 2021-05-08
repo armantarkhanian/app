@@ -21,10 +21,7 @@ func main() {
 
 	router.LoadHTMLFiles("index.html")
 	router.StaticFile("/index.js", "./index.js")
-
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", nil)
-	})
+	router.GET("/", func(c *gin.Context) {c.HTML(200, "index.html", nil)})
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)

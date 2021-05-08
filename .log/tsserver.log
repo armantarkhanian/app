@@ -277,3 +277,13 @@ Info 274  [10:21:32.343] Different program with same set of files:: structureIsR
 Info 275  [10:21:32.593] Starting updateGraphWorker: Project: /dev/null/inferredProject1*
 Info 276  [10:21:32.604] Finishing updateGraphWorker: Project: /dev/null/inferredProject1* Version: 39 structureChanged: false Elapsed: 11.586794003844261ms
 Info 277  [10:21:32.605] Different program with same set of files:: structureIsReused:: 2
+Info 278  [10:36:44.416] Starting updateGraphWorker: Project: /dev/null/inferredProject1*
+Info 279  [10:36:44.431] Finishing updateGraphWorker: Project: /dev/null/inferredProject1* Version: 40 structureChanged: false Elapsed: 15.715964004397392ms
+Info 280  [10:36:44.432] Different program with same set of files:: structureIsReused:: 2
+Info 281  [10:36:44.915] Starting updateGraphWorker: Project: /dev/null/inferredProject1*
+Info 282  [10:36:44.930] Finishing updateGraphWorker: Project: /dev/null/inferredProject1* Version: 41 structureChanged: false Elapsed: 14.966910988092422ms
+Info 283  [10:36:44.930] Different program with same set of files:: structureIsReused:: 2
+Info 284  [10:42:57.368] FileWatcher:: Triggered with /home/arman/go/src/app/index.js 1:: WatchInfo: /home/arman/go/src/app/index.js 500 undefined Project:  WatchType: Closed Script info
+Info 285  [10:42:57.382] Elapsed:: 0.8312849998474121ms FileWatcher:: Triggered with /home/arman/go/src/app/index.js 1:: WatchInfo: /home/arman/go/src/app/index.js 500 undefined Project:  WatchType: Closed Script info
+Info 286  [10:43:49.903] FileWatcher:: Triggered with /home/arman/go/src/app/index.js 1:: WatchInfo: /home/arman/go/src/app/index.js 500 undefined Project:  WatchType: Closed Script info
+Info 287  [10:43:49.903] Elapsed:: 0.11932100355625153ms FileWatcher:: Triggered with /home/arman/go/src/app/index.js 1:: WatchInfo: /home/arman/go/src/app/index.js 500 undefined Project:  WatchType: Closed Script info

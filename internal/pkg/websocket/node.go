@@ -97,18 +97,12 @@ func RunNode(redisHosts ...string) (gin.HandlerFunc, gin.HandlerFunc, error){
 
 	wsHandler := gin.WrapH(authMiddleware(centrifuge.NewWebsocketHandler(node, centrifuge.WebsocketConfig{
 		ReadBufferSize: 1024,
-		CheckOrigin: func(*http.Request) bool {
-			return true
-		},
 		UseWriteBufferPool: true,
 	})))
 
 	sockJSHandler := gin.WrapH(authMiddleware(centrifuge.NewSockjsHandler(node, centrifuge.SockjsConfig{
 		URL:           "https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js",
 		HandlerPrefix: "/connection/sockjs",
-		CheckOrigin: func(*http.Request) bool {
-			return true
-		},
 		WebsocketReadBufferSize:  1024,
 		WebsocketWriteBufferSize: 1024,
 	})))
@@ -121,16 +115,16 @@ func authMiddleware(h http.Handler) http.Handler {
 		ctx := r.Context()
 		c, err := GinContextFromContext(ctx) // getGinContext
 		if err != nil {
-			w.Write([]byte("error, sorry"))
+			w.Write([]byte("error, sorry"))			
 			return
 		}
-		username, _ := c.Cookie("username")
+		username, _ := c.Cookie("user_id")
 		if strings.TrimSpace(username) == "" {
 			w.Write([]byte("set user_id in cookie (it must be user_15)"))
 			return			
 		}
 		newCtx := centrifuge.SetCredentials(ctx, &centrifuge.Credentials{
-			UserID: c.Cookie(username),
+			UserID: username,
 		})
 		r = r.WithContext(newCtx)
 		h.ServeHTTP(w, r)

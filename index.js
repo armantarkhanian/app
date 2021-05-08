@@ -1,5 +1,5 @@
 window.onload = function() {
-    const centrifuge = new Centrifuge('ws://127.0.0.1:8000/connection/websocket?format=json');
+    const centrifuge = new Centrifuge('ws://127.0.0.1/connection/websocket?format=json');
     function drawText(text) {
         const div = document.createElement('div');
         div.innerHTML = text + '<br>';
