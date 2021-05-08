@@ -8,8 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main() {	
-	websocketHandler, sockJSHandler, err := websocket.Run("localhost:6379")
+func main() {
+	websocketHandler, sockJSHandler, err := websocket.RunNode("localhost:6379")
 	if err != nil {
 		panic(err)
 	}

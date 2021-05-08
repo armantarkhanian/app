@@ -49,7 +49,7 @@ func GinContextFromContext(ctx context.Context) (*gin.Context, error) {
 	return gc, nil
 }
 
-func Run(redisHosts ...string) (gin.HandlerFunc, gin.HandlerFunc, error){
+func RunNode(redisHosts ...string) (gin.HandlerFunc, gin.HandlerFunc, error){
 	cfg := centrifuge.DefaultConfig
 	cfg.LogLevel = centrifuge.LogLevelInfo
 	cfg.LogHandler = handleLog
