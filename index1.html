@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">        
+        <script src="https://unpkg.com/text-encoding@0.6.4/lib/encoding-indexes.js"></script>
+        <script src="https://unpkg.com/text-encoding@0.6.4/lib/encoding.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/centrifugal/centrifuge-js@master/dist/centrifuge.protobuf.min.js"></script>
+        <title>Centrifuge library chat example</title>
+    </head>
+    <body>
+        <input type="text" id="input" autofocus/>
+    </body>
+    <script>
+     window.onload = function() {    
+         const centrifuge = new Centrifuge('ws://127.0.0.1/connection/websocket?format=protobuf');
+         const encoder = new TextEncoder("utf-8");
+         const decoder = new TextDecoder("utf-8");
+
+         function drawText(text) {
+             const div = document.createElement('div');
+             div.innerHTML = text + '<br>';
+             document.body.appendChild(div);
+         }
+         centrifuge.on('connect', function(ctx) {
+             drawText('Connected over ' + ctx.transport);
+             var data = encoder.encode("photo_15");
+
+             centrifuge.namedRPC("like", data).then(function(res) {
+                 console.log('rpc result', res);
+             }, function(err) {
+                 console.log('rpc error', err);
+             });
+         });
+
+         centrifuge.on('disconnect', function(ctx) {
+             drawText('Disconnected: ' + ctx.reason);
+         });
+
+         centrifuge.on('publish', function(ctx) { // server side publication to #user channel
+             let channel = ctx.channel;
+             let payload = decoder.decode(ctx.data);
+             alert('Publication from server-side channel ' + channel + ": " + payload);
+         });
+
+         const sub = centrifuge.subscribe("chat", function(ctx) {
+             data = decoder.decode(ctx.data);
+             document.getElementsByTagName("title")[0].innerHTML = data;
+             drawText(data);
+         });
+
+         const input = document.getElementById("input");
+         input.addEventListener('keyup', function(e) {
+             if (e.keyCode === 13) {
+                 value = this.value.trim();
+                 if (value == "") {
+                     return
+                 }
+                 const data = encoder.encode(value);
+                 centrifuge.namedRPC("sendMessage", data).then(function(res) {
+                     console.log('rpc result', res);
+                 }, function(err) {
+                     console.log('rpc error', err);
+                 });
+                 input.value = '';
+             }
+         });
+         // After setting event handlers – initiate actual connection with server.
+         centrifuge.connect();
+     }
+
+
+     function setCookie(name, value, days) {
+         var expires = "";
+         if (days) {
+             var date = new Date();
+             date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+             expires = "; expires=" + date.toUTCString();
+         }
+         document.cookie = name + "=" + (value || "") + expires + "; path=/";
+     }
+     function getCookie(name) {
+         var nameEQ = name + "=";
+         var ca = document.cookie.split(';');
+         for (var i = 0; i < ca.length; i++) {
+             var c = ca[i];
+             while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+             if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+         }
+         return "";
+     }
+
+    </script>
+</html>

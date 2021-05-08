@@ -2,8 +2,8 @@
 package websocket
 
 import (
+	"app/internal/pkg/logger"
 	"context"
-	"fmt"
 
 	"github.com/centrifugal/centrifuge"
 )
@@ -31,7 +31,7 @@ func setHandlers(node *centrifuge.Node) {
 	node.OnConnect(func(client *centrifuge.Client) {
 		transportName := client.Transport().Name()
 		transportProto := client.Transport().Protocol()
-		fmt.Printf("Client %q is connect via %q with %q protocol", client.UserID(), transportName, transportProto)
+		logger.Infof("%q connected via %q using %q protocl", client.UserID(), transportName, transportProto)
 		client.OnAlive(func() {
 			AliveHandler(node, client)
 		})
@@ -44,9 +44,12 @@ func setHandlers(node *centrifuge.Node) {
 		client.OnUnsubscribe(func(e centrifuge.UnsubscribeEvent) {
 			UnsubscribeHandler(node, client, &e)
 		})
+
+		/* not allow users to publish directly to channel
 		client.OnPublish(func(e centrifuge.PublishEvent, callback centrifuge.PublishCallback) {
 			callback(PublishHandler(node, client, &e))
-		})
+		})*/
+
 		client.OnRefresh(func(e centrifuge.RefreshEvent, callback centrifuge.RefreshCallback) {
 			callback(RefreshHandler(node, client, &e))
 		})

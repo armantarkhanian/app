@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"app/internal/pkg/websocket"
@@ -20,11 +21,13 @@ func main() {
 	router.GET("/connection/websocket", websocketHandler)
 	router.GET("/connection/sockjs", sockJSHandler)
 
-	router.LoadHTMLFiles("./index.html")
+	router.LoadHTMLGlob("./*.html")
 	router.StaticFile("/index.js", "./index.js")
 	router.Static("/static", "./web/static")
 
-	router.GET("/", func(c *gin.Context) { c.HTML(200, "index.html", nil) })
+	router.GET("/:id", func(c *gin.Context) {
+		c.HTML(200, fmt.Sprintf("index%s.html", c.Param("id")), nil)
+	})
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)

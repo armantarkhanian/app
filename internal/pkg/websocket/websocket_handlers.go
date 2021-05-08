@@ -20,7 +20,6 @@ func SubscribeHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.Su
 func UnsubscribeHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.UnsubscribeEvent) {}
 
 func PublishHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.PublishEvent) (centrifuge.PublishReply, error) {
-	fmt.Println(string(e.Data))
 	if string(e.Data) == "logout" {
 		if _, err := n.Publish("#user_15", []byte("1")); err != nil {
 			logger.Error(err)
@@ -45,6 +44,26 @@ func SubRefreshHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.S
 }
 
 func RPCHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.RPCEvent) (centrifuge.RPCReply, error) {
+	switch e.Method {
+	case "sendMessage":
+		if string(e.Data) == "logout" {
+			if _, err := n.Publish("#user_15", []byte("1")); err != nil {
+				logger.Error(err)
+			}
+		}
+		if c.UserID() != "user_15" {
+			c.Disconnect(&centrifuge.Disconnect{
+				Code:      200,
+				Reason:    "you do not have *permissions here",
+				Reconnect: false,
+			})
+			return centrifuge.RPCReply{}, nil
+		}
+		fmt.Println(e.Method, string(e.Data), c.UserID())
+		n.Publish("chat", e.Data)
+	default:
+		return centrifuge.RPCReply{}, centrifuge.ErrorMethodNotFound
+	}
 	return centrifuge.RPCReply{}, nil
 }
 

@@ -1,6 +1,6 @@
-window.onload = function() {
-    const centrifuge = new Centrifuge('ws://127.0.0.1/connection/websocket?format=protobuf');    
-    const encoder = new TextEncoder("utf-8");    
+window.onload = function() {    
+    const centrifuge = new Centrifuge('ws://127.0.0.1/connection/websocket?format=protobuf');
+    const encoder = new TextEncoder("utf-8");
     const decoder = new TextDecoder("utf-8");
 
     function drawText(text) {
@@ -10,7 +10,9 @@ window.onload = function() {
     }
     centrifuge.on('connect', function(ctx) {
         drawText('Connected over ' + ctx.transport);
-        centrifuge.rpc({"method": "like", "userID": "15", "photoID": "34"}).then(function(res) {
+        var data = encoder.encode("photo_15");
+
+        centrifuge.namedRPC("like", data).then(function(res) {
             console.log('rpc result', res);
         }, function(err) {
             console.log('rpc error', err);
@@ -27,7 +29,7 @@ window.onload = function() {
         alert('Publication from server-side channel ' + channel + ": " + payload);
     });
 
-    const sub = centrifuge.subscribe("chat", function(ctx) {  
+    const sub = centrifuge.subscribe("chat", function(ctx) {
         data = decoder.decode(ctx.data);
         document.getElementsByTagName("title")[0].innerHTML = data;
         drawText(data);
@@ -40,8 +42,12 @@ window.onload = function() {
             if (value == "") {
                 return
             }
-            const binaryData = encoder.encode(value);
-            sub.publish(binaryData);
+            const data = encoder.encode(value);
+            centrifuge.namedRPC("sendMessage", data).then(function(res) {
+                console.log('rpc result', res);
+            }, function(err) {
+                console.log('rpc error', err);
+            });
             input.value = '';
         }
     });
@@ -50,22 +56,22 @@ window.onload = function() {
 }
 
 
-function setCookie(name,value,days) {
+function setCookie(name, value, days) {
     var expires = "";
     if (days) {
         var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "")+ expires + "; path=/";
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 function getCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
     }
     return "";
 }
