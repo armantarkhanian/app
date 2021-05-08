@@ -3,6 +3,7 @@ package websocket
 
 import (
 	"app/internal/pkg/logger"
+	"fmt"
 	"log"
 
 	"github.com/centrifugal/centrifuge"
@@ -13,13 +14,14 @@ func DisconectHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.Di
 	log.Printf("client %q disconnected", c.UserID())
 }
 
-func SubscribeHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.SubscribeEvent) (centrifuge.SubscribeReply, error){
+func SubscribeHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.SubscribeEvent) (centrifuge.SubscribeReply, error) {
 	return centrifuge.SubscribeReply{}, nil
 }
 func UnsubscribeHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.UnsubscribeEvent) {}
 
 func PublishHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.PublishEvent) (centrifuge.PublishReply, error) {
-	if string(e.Data) == `"logout"` {
+	fmt.Println(string(e.Data))
+	if string(e.Data) == "logout" {
 		if _, err := n.Publish("#user_15", []byte("1")); err != nil {
 			logger.Error(err)
 		}

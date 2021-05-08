@@ -1,11 +1,14 @@
 window.onload = function() {
-    const centrifuge = new Centrifuge('ws://127.0.0.1/connection/websocket?format=json');
+    const centrifuge = new Centrifuge('ws://127.0.0.1/connection/websocket?format=protobuf');    
+    const encoder = new TextEncoder("utf-8");    
+    const decoder = new TextDecoder("utf-8");
+
     function drawText(text) {
         const div = document.createElement('div');
         div.innerHTML = text + '<br>';
         document.body.appendChild(div);
     }
-    centrifuge.on('connect', function(ctx) {        
+    centrifuge.on('connect', function(ctx) {
         drawText('Connected over ' + ctx.transport);
         centrifuge.rpc({"method": "like", "userID": "15", "photoID": "34"}).then(function(res) {
             console.log('rpc result', res);
@@ -18,21 +21,27 @@ window.onload = function() {
         drawText('Disconnected: ' + ctx.reason);
     });
 
-    centrifuge.on('publish', function(ctx) {        
-        const channel = ctx.channel;
-        const payload = JSON.stringify(ctx.data);
+    centrifuge.on('publish', function(ctx) { // server side publication to #user channel
+        let channel = ctx.channel;
+        let payload = decoder.decode(ctx.data);
         alert('Publication from server-side channel ' + channel + ": " + payload);
     });
 
-    const sub = centrifuge.subscribe("chat", function(ctx) {
-        document.getElementsByTagName("title")[0].innerHTML = JSON.stringify(ctx.data);
-        drawText(JSON.stringify(ctx.data));
+    const sub = centrifuge.subscribe("chat", function(ctx) {  
+        data = decoder.decode(ctx.data);
+        document.getElementsByTagName("title")[0].innerHTML = data;
+        drawText(data);
     });
 
     const input = document.getElementById("input");
     input.addEventListener('keyup', function(e) {
         if (e.keyCode === 13) {
-            sub.publish(this.value);
+            value = this.value.trim();
+            if (value == "") {
+                return
+            }
+            const binaryData = encoder.encode(value);
+            sub.publish(binaryData);
             input.value = '';
         }
     });

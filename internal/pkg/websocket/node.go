@@ -2,20 +2,18 @@
 package websocket
 
 import (
+	"context"
+	"fmt"
 	"log"
 	"net/http"
-	"fmt"
-	"context"
-	"strings"
 
-	"github.com/gin-gonic/gin"
 	"github.com/centrifugal/centrifuge"
+	"github.com/gin-gonic/gin"
 )
 
 func handleLog(e centrifuge.LogEntry) {
 	log.Printf("%s: %v", e.Message, e.Fields)
 }
-
 
 type contextKey int
 
@@ -49,7 +47,7 @@ func GinContextFromContext(ctx context.Context) (*gin.Context, error) {
 	return gc, nil
 }
 
-func RunNode(redisHosts ...string) (gin.HandlerFunc, gin.HandlerFunc, error){
+func RunNode(redisHosts ...string) (gin.HandlerFunc, gin.HandlerFunc, error) {
 	cfg := centrifuge.DefaultConfig
 	cfg.LogLevel = centrifuge.LogLevelInfo
 	cfg.LogHandler = handleLog
@@ -82,7 +80,7 @@ func RunNode(redisHosts ...string) (gin.HandlerFunc, gin.HandlerFunc, error){
 			Shards: redisShards,
 		})
 		if err != nil {
-		return nil, nil, err
+			return nil, nil, err
 		}
 		node.SetBroker(broker)
 		node.SetPresenceManager(presenceManager)
@@ -96,35 +94,30 @@ func RunNode(redisHosts ...string) (gin.HandlerFunc, gin.HandlerFunc, error){
 	}
 
 	wsHandler := gin.WrapH(authMiddleware(centrifuge.NewWebsocketHandler(node, centrifuge.WebsocketConfig{
-		ReadBufferSize: 1024,
+		ReadBufferSize:     1024,
 		UseWriteBufferPool: true,
 	})))
 
 	sockJSHandler := gin.WrapH(authMiddleware(centrifuge.NewSockjsHandler(node, centrifuge.SockjsConfig{
-		URL:           "https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js",
-		HandlerPrefix: "/connection/sockjs",
+		URL:                      "https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js",
+		HandlerPrefix:            "/connection/sockjs",
 		WebsocketReadBufferSize:  1024,
 		WebsocketWriteBufferSize: 1024,
 	})))
-	
+
 	return wsHandler, sockJSHandler, nil
 }
 
 func authMiddleware(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var userID string
 		ctx := r.Context()
 		c, err := GinContextFromContext(ctx) // getGinContext
-		if err != nil {
-			w.Write([]byte("error, sorry"))			
-			return
-		}
-		username, _ := c.Cookie("user_id")
-		if strings.TrimSpace(username) == "" {
-			w.Write([]byte("set user_id in cookie (it must be user_15)"))
-			return			
+		if err == nil {
+			userID, _ = c.Cookie("user_id")
 		}
 		newCtx := centrifuge.SetCredentials(ctx, &centrifuge.Credentials{
-			UserID: username,
+			UserID: userID,
 		})
 		r = r.WithContext(newCtx)
 		h.ServeHTTP(w, r)

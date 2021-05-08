@@ -14,14 +14,17 @@ func main() {
 		panic(err)
 	}
 
+	gin.SetMode(gin.DebugMode)
 	router := gin.New()
 	router.Use(websocket.GinContextToContextMiddleware())
 	router.GET("/connection/websocket", websocketHandler)
 	router.GET("/connection/sockjs", sockJSHandler)
 
-	router.LoadHTMLFiles("index.html")
+	router.LoadHTMLFiles("./index.html")
 	router.StaticFile("/index.js", "./index.js")
-	router.GET("/", func(c *gin.Context) {c.HTML(200, "index.html", nil)})
+	router.Static("/static", "./web/static")
+
+	router.GET("/", func(c *gin.Context) { c.HTML(200, "index.html", nil) })
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)
