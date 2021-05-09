@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/centrifugal/centrifuge"
 	"github.com/gin-gonic/gin"
@@ -99,25 +98,18 @@ func RunNode(redisHosts ...string) (gin.HandlerFunc, gin.HandlerFunc, error) {
 		return nil, nil, err
 	}
 
-	go func() {
-		time.Sleep(10 * time.Second)
-		if err := node.Notify("fuck yourself", []byte("{json data here}"), ""); err != nil {
-			fmt.Println(err)
-		}
-	}()
-
 	//wsHandler := gin.WrapH(authMiddleware(newWebsocketHandler(node)))
 
 	wsHandler := gin.WrapH(authMiddleware(centrifuge.NewWebsocketHandler(node, centrifuge.WebsocketConfig{
-		ReadBufferSize:     1024,
+		ReadBufferSize:     512,
 		UseWriteBufferPool: true,
 	})))
 
 	sockJSHandler := gin.WrapH(authMiddleware(centrifuge.NewSockjsHandler(node, centrifuge.SockjsConfig{
 		URL:                      "https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js",
 		HandlerPrefix:            "/connection/sockjs",
-		WebsocketReadBufferSize:  1024,
-		WebsocketWriteBufferSize: 1024,
+		WebsocketReadBufferSize:  512,
+		WebsocketWriteBufferSize: 512,
 	})))
 
 	return wsHandler, sockJSHandler, nil
