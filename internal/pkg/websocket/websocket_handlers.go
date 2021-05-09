@@ -82,3 +82,15 @@ func PresenceStatsHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifug
 func HistoryHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.HistoryEvent) (centrifuge.HistoryReply, error) {
 	return centrifuge.HistoryReply{}, nil
 }
+
+func IsUserOnline(userID string) (bool, error) {
+	return checkUserOnline(userID)
+}
+
+func checkUserOnline(userID string) (bool, error) {
+	res, err := node.PresenceStats("#" + userID)
+	if err != nil {
+		return false, err
+	}
+	return res.NumClients > 0, nil
+}

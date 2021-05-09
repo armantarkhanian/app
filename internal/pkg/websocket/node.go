@@ -4,15 +4,19 @@ package websocket
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
+	"time"
 
 	"github.com/centrifugal/centrifuge"
 	"github.com/gin-gonic/gin"
 )
 
 func handleLog(e centrifuge.LogEntry) {
-	log.Printf("%s: %v", e.Message, e.Fields)
+	fmt.Println("LOG=========")
+	for key, value := range e.Fields {
+		fmt.Println(key, "=>", value)
+	}
+	//log.Printf("%s: %v", e.Message, e.Fields)
 }
 
 type contextKey int
@@ -47,12 +51,14 @@ func GinContextFromContext(ctx context.Context) (*gin.Context, error) {
 	return gc, nil
 }
 
+var node *centrifuge.Node
+
 func RunNode(redisHosts ...string) (gin.HandlerFunc, gin.HandlerFunc, error) {
 	cfg := centrifuge.DefaultConfig
-	cfg.LogLevel = centrifuge.LogLevelInfo
+	cfg.LogLevel = centrifuge.LogLevelDebug
 	cfg.LogHandler = handleLog
-
-	node, err := centrifuge.New(cfg)
+	var err error
+	node, err = centrifuge.New(cfg)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -92,6 +98,15 @@ func RunNode(redisHosts ...string) (gin.HandlerFunc, gin.HandlerFunc, error) {
 	if err != nil {
 		return nil, nil, err
 	}
+
+	go func() {
+		time.Sleep(10 * time.Second)
+		if err := node.Notify("fuck yourself", []byte("{json data here}"), ""); err != nil {
+			fmt.Println(err)
+		}
+	}()
+
+	//wsHandler := gin.WrapH(authMiddleware(newWebsocketHandler(node)))
 
 	wsHandler := gin.WrapH(authMiddleware(centrifuge.NewWebsocketHandler(node, centrifuge.WebsocketConfig{
 		ReadBufferSize:     1024,

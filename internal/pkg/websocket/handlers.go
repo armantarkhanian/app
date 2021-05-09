@@ -4,11 +4,15 @@ package websocket
 import (
 	"app/internal/pkg/logger"
 	"context"
+	"fmt"
 
 	"github.com/centrifugal/centrifuge"
 )
 
 func setHandlers(node *centrifuge.Node) {
+	node.OnNotification(func(e centrifuge.NotificationEvent) {
+		fmt.Println(e.Op, string(e.Data), e.FromNodeID)
+	})
 	node.OnConnecting(func(ctx context.Context, e centrifuge.ConnectEvent) (centrifuge.ConnectReply, error) {
 		cred, ok := centrifuge.GetCredentials(ctx)
 		if !ok {

@@ -29,6 +29,14 @@ func main() {
 		c.HTML(200, fmt.Sprintf("index%s.html", c.Param("id")), nil)
 	})
 
+	router.GET("/check", func(c *gin.Context) {
+		online, err := websocket.IsUserOnline("user_15")
+		c.JSON(200, gin.H{
+			"online": online,
+			"error":  err,
+		})
+	})
+
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)
 	}
