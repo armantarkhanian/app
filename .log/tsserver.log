@@ -4289,3 +4289,17 @@ Info 4286 [18:45:11.795] Format host information updated
 Info 4287 [18:45:11.995] Starting updateGraphWorker: Project: /dev/null/inferredProject1*
 Info 4288 [18:45:12.011] Finishing updateGraphWorker: Project: /dev/null/inferredProject1* Version: 344 structureChanged: false Elapsed: 16.375658988952637ms
 Info 4289 [18:45:12.011] Different program with same set of files:: structureIsReused:: 2
+Info 4290 [19:22:35.568] Starting updateGraphWorker: Project: /dev/null/inferredProject1*
+Info 4291 [19:22:51.006] Finishing updateGraphWorker: Project: /dev/null/inferredProject1* Version: 345 structureChanged: true Elapsed: 15000.658683001995ms
+Info 4292 [19:22:51.006] Project '/dev/null/inferredProject1*' (Inferred)
+Info 4293 [19:22:51.006] 	Files (20)
+
+Info 4294 [19:22:51.006] -----------------------------------------------
+Info 4295 [19:22:51.163] Before ensureProjectForOpenFiles:
+Info 4296 [19:22:51.179] After ensureProjectForOpenFiles:
+Info 4297 [19:22:51.188] got projects updated in background, updating diagnostics for /home/arman/go/src/app/index.js
+Info 4298 [19:23:00.473] Starting updateGraphWorker: Project: /dev/null/inferredProject1*
+Info 4299 [19:23:00.569] Finishing updateGraphWorker: Project: /dev/null/inferredProject1* Version: 346 structureChanged: false Elapsed: 0.741686999797821ms
+Info 4300 [19:23:02.722] Before ensureProjectForOpenFiles:
+Info 4301 [19:23:02.723] After ensureProjectForOpenFiles:
+Info 4302 [19:23:02.723] got projects updated in background, updating diagnostics for /home/arman/go/src/app/index.js

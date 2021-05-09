@@ -1,0 +1,16 @@
+// awesome.proto
+package awesomepackage;
+syntax = "proto3";
+
+message AwesomeMessage {
+    string awesomeField = 1;
+}
+
+message LikeObject {
+    string id    = 1;
+    bool   exist = 2;
+}
+
+message LikeMessage {
+    repeated LikeObject objects = 1;
+}

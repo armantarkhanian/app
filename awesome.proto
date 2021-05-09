@@ -1,3 +1,4 @@
+// awesome.proto
 package awesomepackage;
 syntax = "proto3";
 

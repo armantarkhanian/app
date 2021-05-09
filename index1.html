@@ -2,19 +2,25 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">        
-        <script src="https://unpkg.com/text-encoding@0.6.4/lib/encoding-indexes.js"></script>
-        <script src="https://unpkg.com/text-encoding@0.6.4/lib/encoding.js"></script>
+        <script src="/static/js/protobuf.js/dist/protobuf.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/centrifugal/centrifuge-js@master/dist/centrifuge.protobuf.min.js"></script>
         <title>Centrifuge library chat example</title>
     </head>
     <body>
-        <input type="text" id="input" old="" autofocus/><i id="names"></i><i id="type"></i>
+        <input type="text" id="input" old="" autofocus/> <i id="names"></i><i id="type"></i>
     </body>
     <script>
-     window.onload = function() {    
+     window.onload = function() {         
+         protobuf.load("/static/awesome.proto", function(err, root) {
+             if (err) {
+                 throw err;
+             }             
+             var LikeMessage = root.lookupType("awesomepackage.LikeMessage");
+             //var bytes = LikeMessage.encode(LikeMessage.fromObject({})).finish();
+             //var obj = LikeMessage.decode(bytes);
+         });
+
          const centrifuge = new Centrifuge('ws://127.0.0.1/connection/websocket?format=protobuf');
-         const encoder = new TextEncoder("utf-8");
-         const decoder = new TextDecoder("utf-8");
 
          function drawText(text) {
              const div = document.createElement('div');
@@ -51,10 +57,16 @@
          const sub = centrifuge.subscribe("chat", function(ctx) {
              resp = JSON.parse(decoder.decode(ctx.data));
              if (resp.action == "typing") {
+                 if (resp.user == getCookie("user_id") ){
+                     resp.user = "Вы";
+                 }
                  names.push(resp.user);
                  showNames();
                  document.getElementById("type").innerHTML = "печатает...";
-             } else if (resp.action == "stopTyping") {
+             } else if (resp.action == "stopTyping") {                 
+                 if (resp.user == getCookie("user_id") ){
+                     resp.user = "Вы";
+                 }
                  names = names.filter(e => e !== resp.user);
 
                  var val = document.getElementById("type").innerHTML

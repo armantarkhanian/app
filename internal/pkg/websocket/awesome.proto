@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package websocket;
+option go_package = "/websocket";
+
+message Like {
+    required int ID = 1;
+}
+
+message SendMessage {
+    required string channelID = 1;
+    required string text = 2;
+}
+
+message RPC {
+    required string action = 1;
+}

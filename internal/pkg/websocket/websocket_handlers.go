@@ -55,6 +55,7 @@ func RPCHandler(c *centrifuge.Client, e *centrifuge.RPCEvent) (centrifuge.RPCRep
 			logger.Error(err)
 		}
 	case "sendMessage":
+		SendMessageRPC := new(msg.Msg)
 		if string(e.Data) == "logout" {
 			if _, err := node.Publish("#"+c.UserID(), []byte("1")); err != nil {
 				logger.Error(err)
