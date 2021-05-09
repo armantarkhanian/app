@@ -8,7 +8,7 @@
         <title>Centrifuge library chat example</title>
     </head>
     <body>
-        <input type="text" id="input" old="" autofocus/> <i id="type"></i>
+        <input type="text" id="input" old="" autofocus/><i id="names"></i><i id="type"></i>
     </body>
     <script>
      window.onload = function() {    
@@ -35,12 +35,34 @@
              alert('Publication from server-side channel ' + channel + ": " + payload);
          });
 
+         var names = [];
+         function onlyUnique(value, index, self) {
+             return self.indexOf(value) === index;
+         }
+
+         function showNames() {
+             names = names.filter(onlyUnique);
+             var str = "";
+             for (let i = 0; i < names.length; i++) {
+                 str += names[i] + " ";
+             }
+             document.getElementById("names").innerHTML = str;
+         }
          const sub = centrifuge.subscribe("chat", function(ctx) {
              resp = JSON.parse(decoder.decode(ctx.data));
              if (resp.action == "typing") {
-                 document.getElementById("type").innerHTML = resp.user + " печатает...";
+                 names.push(resp.user);
+                 showNames();
+                 document.getElementById("type").innerHTML = "печатает...";
              } else if (resp.action == "stopTyping") {
-                 document.getElementById("type").innerHTML = "";
+                 names = names.filter(e => e !== resp.user);
+
+                 var val = document.getElementById("type").innerHTML
+                 document.getElementById("type").innerHTML = val.replace(resp.user, "");
+                 if (names.length == 0 ) {
+                     document.getElementById("names").innerHTML = "";
+                     document.getElementById("type").innerHTML = "";
+                 }
              } else if (resp.action == "sendMessage") {
                  drawText(resp.user + ": " + resp.data);                 
              }
@@ -48,7 +70,7 @@
 
          const input = document.getElementById("input");
          let timer,
-             timeoutVal = 1000;
+             timeoutVal = 1500;
          
          input.addEventListener('keypress', function(e) {
              window.clearTimeout(timer);
@@ -73,7 +95,7 @@
                      console.log('rpc error', err);
                  });
                  input.value = '';
-             } else {                 
+             } else {
                  window.clearTimeout(timer);
                  timer = window.setTimeout(() => {
                      const dataType = encoder.encode("1");

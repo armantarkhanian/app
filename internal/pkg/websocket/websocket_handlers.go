@@ -62,6 +62,7 @@ func RPCHandler(c *centrifuge.Client, e *centrifuge.RPCEvent) (centrifuge.RPCRep
 		}
 		fmt.Println(e.Method, string(e.Data), c.UserID())
 		node.Publish("chat", []byte(`{"user": "`+c.UserID()+`", "action":"sendMessage", "data":"`+string(e.Data)+`"}`))
+		node.Publish("chat", []byte(`{"user": "`+c.UserID()+`", "action":"stopTyping", "data":"1"}`))
 	default:
 		return centrifuge.RPCReply{}, centrifuge.ErrorMethodNotFound
 	}
