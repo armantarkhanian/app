@@ -37,43 +37,43 @@ func setHandlers(node *centrifuge.Node) {
 		transportProto := client.Transport().Protocol()
 		logger.Infof("%q connected via %q using %q protocl", client.UserID(), transportName, transportProto)
 		client.OnAlive(func() {
-			AliveHandler(node, client)
+			AliveHandler(client)
 		})
 		client.OnDisconnect(func(e centrifuge.DisconnectEvent) {
-			DisconectHandler(node, client, &e)
+			DisconectHandler(client, &e)
 		})
 		client.OnSubscribe(func(e centrifuge.SubscribeEvent, callback centrifuge.SubscribeCallback) {
-			callback(SubscribeHandler(node, client, &e))
+			callback(SubscribeHandler(client, &e))
 		})
 		client.OnUnsubscribe(func(e centrifuge.UnsubscribeEvent) {
-			UnsubscribeHandler(node, client, &e)
+			UnsubscribeHandler(client, &e)
 		})
 
 		/* not allow users to publish directly to channel
 		client.OnPublish(func(e centrifuge.PublishEvent, callback centrifuge.PublishCallback) {
-			callback(PublishHandler(node, client, &e))
+			callback(PublishHandler(client, &e))
 		})*/
 
 		client.OnRefresh(func(e centrifuge.RefreshEvent, callback centrifuge.RefreshCallback) {
-			callback(RefreshHandler(node, client, &e))
+			callback(RefreshHandler(client, &e))
 		})
 		client.OnSubRefresh(func(e centrifuge.SubRefreshEvent, callback centrifuge.SubRefreshCallback) {
-			callback(SubRefreshHandler(node, client, &e))
+			callback(SubRefreshHandler(client, &e))
 		})
 		client.OnRPC(func(e centrifuge.RPCEvent, callback centrifuge.RPCCallback) {
-			callback(RPCHandler(node, client, &e))
+			callback(RPCHandler(client, &e))
 		})
 		client.OnMessage(func(e centrifuge.MessageEvent) {
-			MessageHandler(node, client, &e)
+			MessageHandler(client, &e)
 		})
 		client.OnPresence(func(e centrifuge.PresenceEvent, callback centrifuge.PresenceCallback) {
-			callback(PresenceHandler(node, client, &e))
+			callback(PresenceHandler(client, &e))
 		})
 		client.OnPresenceStats(func(e centrifuge.PresenceStatsEvent, callback centrifuge.PresenceStatsCallback) {
-			callback(PresenceStatsHandler(node, client, &e))
+			callback(PresenceStatsHandler(client, &e))
 		})
 		client.OnHistory(func(e centrifuge.HistoryEvent, callback centrifuge.HistoryCallback) {
-			callback(HistoryHandler(node, client, &e))
+			callback(HistoryHandler(client, &e))
 		})
 	})
 }

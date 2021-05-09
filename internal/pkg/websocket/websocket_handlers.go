@@ -9,77 +9,78 @@ import (
 	"github.com/centrifugal/centrifuge"
 )
 
-func AliveHandler(n *centrifuge.Node, c *centrifuge.Client) {}
-func DisconectHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.DisconnectEvent) {
+func AliveHandler(c *centrifuge.Client) {}
+func DisconectHandler(c *centrifuge.Client, e *centrifuge.DisconnectEvent) {
 	log.Printf("client %q disconnected", c.UserID())
 }
 
-func SubscribeHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.SubscribeEvent) (centrifuge.SubscribeReply, error) {
+func SubscribeHandler(c *centrifuge.Client, e *centrifuge.SubscribeEvent) (centrifuge.SubscribeReply, error) {
 	return centrifuge.SubscribeReply{}, nil
 }
-func UnsubscribeHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.UnsubscribeEvent) {}
+func UnsubscribeHandler(c *centrifuge.Client, e *centrifuge.UnsubscribeEvent) {}
 
-func PublishHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.PublishEvent) (centrifuge.PublishReply, error) {
-	if string(e.Data) == "logout" {
-		if _, err := n.Publish("#user_15", []byte("1")); err != nil {
-			logger.Error(err)
-		}
-	}
-	if c.UserID() != "user_15" {
-		c.Disconnect(&centrifuge.Disconnect{
-			Code:      200,
-			Reason:    "you do not have *permissions here",
-			Reconnect: false,
-		})
-	}
-	return centrifuge.PublishReply{}, nil
+func PublishHandler(c *centrifuge.Client, e *centrifuge.PublishEvent) (centrifuge.PublishReply, error) {
+	// запретить пользователям публиковать данные
+	return centrifuge.PublishReply{}, centrifuge.ErrorPermissionDenied
 }
 
-func RefreshHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.RefreshEvent) (centrifuge.RefreshReply, error) {
+func RefreshHandler(c *centrifuge.Client, e *centrifuge.RefreshEvent) (centrifuge.RefreshReply, error) {
 	return centrifuge.RefreshReply{}, nil
 }
 
-func SubRefreshHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.SubRefreshEvent) (centrifuge.SubRefreshReply, error) {
+func SubRefreshHandler(c *centrifuge.Client, e *centrifuge.SubRefreshEvent) (centrifuge.SubRefreshReply, error) {
 	return centrifuge.SubRefreshReply{}, nil
 }
 
-func RPCHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.RPCEvent) (centrifuge.RPCReply, error) {
+func RPCHandler(c *centrifuge.Client, e *centrifuge.RPCEvent) (centrifuge.RPCReply, error) {
 	switch e.Method {
+	case "stopTyping":
+		data := `
+{
+"action": "stopTyping",
+"user": "` + c.UserID() + `"
+}
+`
+		if _, err := node.Publish("chat", []byte(data)); err != nil {
+			logger.Error(err)
+		}
+	case "typing":
+		data := `
+{
+"action": "typing",
+"user": "` + c.UserID() + `"
+}
+`
+		if _, err := node.Publish("chat", []byte(data)); err != nil {
+			logger.Error(err)
+		}
 	case "sendMessage":
 		if string(e.Data) == "logout" {
-			if _, err := n.Publish("#user_15", []byte("1")); err != nil {
+			if _, err := node.Publish("#"+c.UserID(), []byte("1")); err != nil {
 				logger.Error(err)
 			}
 		}
-		if c.UserID() != "user_15" {
-			c.Disconnect(&centrifuge.Disconnect{
-				Code:      200,
-				Reason:    "you do not have *permissions here",
-				Reconnect: false,
-			})
-			return centrifuge.RPCReply{}, nil
-		}
 		fmt.Println(e.Method, string(e.Data), c.UserID())
-		n.Publish("chat", e.Data)
+		node.Publish("chat", []byte(`{"user": "`+c.UserID()+`", "action":"sendMessage", "data":"`+string(e.Data)+`"}`))
 	default:
 		return centrifuge.RPCReply{}, centrifuge.ErrorMethodNotFound
 	}
 	return centrifuge.RPCReply{}, nil
 }
 
-func MessageHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.MessageEvent) {
+func MessageHandler(c *centrifuge.Client, e *centrifuge.MessageEvent) {
 	c.Send(e.Data)
 }
 
-func PresenceHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.PresenceEvent) (centrifuge.PresenceReply, error) {
+func PresenceHandler(c *centrifuge.Client, e *centrifuge.PresenceEvent) (centrifuge.PresenceReply, error) {
 	return centrifuge.PresenceReply{}, nil
 }
 
-func PresenceStatsHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.PresenceStatsEvent) (centrifuge.PresenceStatsReply, error) {
+func PresenceStatsHandler(c *centrifuge.Client, e *centrifuge.PresenceStatsEvent) (centrifuge.PresenceStatsReply, error) {
 	return centrifuge.PresenceStatsReply{}, nil
 }
 
-func HistoryHandler(n *centrifuge.Node, c *centrifuge.Client, e *centrifuge.HistoryEvent) (centrifuge.HistoryReply, error) {
+func HistoryHandler(c *centrifuge.Client, e *centrifuge.HistoryEvent) (centrifuge.HistoryReply, error) {
 	return centrifuge.HistoryReply{}, nil
 }
 
@@ -88,6 +89,10 @@ func IsUserOnline(userID string) (bool, error) {
 }
 
 func checkUserOnline(userID string) (bool, error) {
+	res1, _ := node.Presence("#" + userID)
+	for key, value := range res1.Presence {
+		fmt.Println(key, "=>", value)
+	}
 	res, err := node.PresenceStats("#" + userID)
 	if err != nil {
 		return false, err
